@@ -58,14 +58,14 @@ Die Struktur der Daten entspricht dem Datenmodell 1 und 2 der DaTraV Daten des F
 ### Struktur dieses Repositories
   
 Dieses Repository enthält die folgenden Dateien:
-- [generate_puf.py](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/generate_puf.py?ref_type=heads): Das ist die Hauptdatei, in der das PUF erstellt und gespeichert wird. Sie verwendet Funktionen, die in 
-- [functions.py](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/functions.py?ref_type=heads) enthalten sind. 
-- [helpers.py](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/helpers.py?ref_type=heads) enthält Funktionen, um die Datenbankverbindung aufzubauen, und Informationen über bestimmte Variablen.
-- [data_types.csv](dhttps://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/data_types.csv?ref_type=heads) enthält eine Liste aller Variablen und Datentypen.
+- [generate_puf.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/generate_puf.py): Das ist die Hauptdatei, in der das PUF erstellt und gespeichert wird. Sie verwendet Funktionen, die in 
+- [functions.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/functions.py) enthalten sind. 
+- [helpers.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/helpers.py) enthält Funktionen, um die Datenbankverbindung aufzubauen, und Informationen über bestimmte Variablen.
+- [data_types.csv](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/data_types.csv) enthält eine Liste aller Variablen und Datentypen.
   
-Zusätzlich gibt es die Skripte [pre_tests.py](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/pre_tests.py?ref_type=heads) und [post_tests.py](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/post_tests.py?ref_type=heads). Diese enthalten Unittests um die entwickelten Methoden zu evaluieren. 
+Zusätzlich gibt es die Skripte [pre_tests.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main//pre_tests.py) und [post_tests.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/post_tests.py). Diese enthalten Unittests um die entwickelten Methoden zu evaluieren. 
   
-Um den Code laufen zu lassen, stellen wir künstlich erzeugte Testdaten in einer SQLite Datenbank-Datei bereit. Die Testdaten werden mit dem Jupyter Notebook [generate_test_data.ipynb](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/generate_test_data.ipynb?ref_type=heads).
+Um den Code laufen zu lassen, stellen wir künstlich erzeugte Testdaten in einer SQLite Datenbank-Datei bereit. Die Testdaten werden mit dem Jupyter Notebook [generate_test_data.ipynb](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/generate_test_data.ipynb).
 Voraussetzung zum Testen ist daher die Installation von SQLite:  
 Es kann [hier](https://www.sqlite.org/download.html) heruntergeladen werden. Eine Anleitung für Windows gibt es [hier](https://dev.to/dendihandian/installing-sqlite3-in-windows-44eb).
 
