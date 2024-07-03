@@ -1,0 +1,88 @@
+Variablenname,Sprechender Name,Sampling Verfahren,Zusatzinformation
+SA151_SATZART,Satzart,,Konstant
+SA151_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA151_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA151_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA151_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA151_KV_NR_KENNZEICHEN,Vorliegen einer Bundeseinheitlichen KV Nummer?,Simple Random Sample ohne Replacement,
+SA151_GEBURTSJAHR,Geburtsjahr,Simple Random Sample ohne Replacement,
+SA151_GESCHLECHT,Geschlecht,Simple Random Sample ohne Replacement,
+SA151_VERSICHERTENTAGE,Anzahl an Versichertentagen,Simple Random Sample ohne Replacement,
+SA151_VERSTORBEN,Verstorben ja/nein,Simple Random Sample ohne Replacement,
+SA151_VERSICHERTENTAGEKG,Anzahl an Versichertentagen mit Krankengeld,Simple Random Sample ohne Replacement,
+SA152_SATZART,Satzart,,Konstant
+SA152_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA152_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA152_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA152_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA152_KV_NR_KENNZEICHEN,Vorliegen einer Bundeseinheitlichen KV Nummer?,Simple Random Sample ohne Replacement,
+SA152_ERWERBSMINDERUNGS_VT,Anzahl an Versichertentagen mit Erwerbsminderung,Simple Random Sample ohne Replacement,
+SA152_VERSICHERTENTAGEAUSLAND,Anzahl an Versichertentagen im Ausland,Simple Random Sample ohne Replacement,
+SA152_VERSICHERTENTAGE13II,Anzahl an Versichertentagen nach §13 SGB II,Simple Random Sample ohne Replacement,
+SA152_VERSICHERTENTAGE53IV,Anzahl an Versichertentagen nach §53 SGB IV,Simple Random Sample ohne Replacement,
+SA153_SATZART,Satzart,,Konstant
+SA153_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA153_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA153_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA153_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA153_KV_NR_KENNZEICHEN,Vorliegen einer Bundeseinheitlichen KV Nummer?,Simple Random Sample ohne Replacement,
+SA153_EXTRABLUTREINIGUNG,Extrakorporale Blutreinigung wurde durchgeführt ja/nein,Simple Random Sample ohne Replacement,
+SA451_SATZART,Satzart,,Konstant
+SA451_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA451_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA451_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA451_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA451_VERORDNUNGSDATUM,Verordnungsdatum der dazugehörigen Pharmazentralnummer,Simple Random Sample ohne Replacement,
+SA451_PHARMAZENTRALNUMMER,Pharmazentralnummer,"Transformation in Wide, dann Simple Random Sample ohne Replacement",
+SA451_ANZAHLEINHEITENFAKTOR,Einheitenfaktor der Pharmazentralnummer.,Simple Random Sample ohne Replacement,Entspricht in etwa der Packungsgröße. Ist eindeutig für eine PZN
+SA551_SATZART,Satzart,,Konstant
+SA551_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA551_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA551_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA551_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA551_ENTLASSUNGSMONAT,Entlassungmonat aus dem Krankenhaus JJJJMM,Simple Random Sample ohne Replacement,
+SA551_FALLZAEHLER,Laufender Zähler für die Anzahl an Krankenhaus aufenthalten innerhalb eines Jahres,Simple Random Sample ohne Replacement,
+SA551_DIAGNOSE,Diagnose Code nach ICD mit Zusatz,"Transformation in Wide, dann Simple Random Sample ohne Replacement",
+SA551_ICD_CODE,Diagnose Code nach ICD ohne Zusatz,Generiert aus SA551_DIAGNOSE,Wird aus SA551_DIAGNOSE generiert
+SA551_ICD_ZUSATZ,ICD Code Zusatz,Generiert aus SA551_DIAGNOSE,Wird aus SA551_DIAGNOSE generiert
+SA551_LOKALISATION,Lokalisation der Diagnose (links/rechts/beide),Simple Random Sample ohne Replacement,
+SA551_ARTDIAGNOSE,Art der Diagnose (),Simple Random Sample ohne Replacement,
+SA551_ARTBEHANDLUNG,Art der Behandlung,Simple Random Sample ohne Replacement,
+SA651_SATZART,Satzart,,Konstant
+SA651_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA651_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA651_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA651_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA651_LEISTUNGSQUARTAL,"Quartal in dem Leistungen für die Diagnose abgerechnet werden (1, 2, 3, 4)",Simple Random Sample ohne Replacement,
+SA651_DIAGNOSE,Diagnose Code nach ICD mit Zusatz,"Transformation in Wide, dann Simple Random Sample ohne Replacement",
+SA651_ICD_CODE,Diagnose Code nach ICD ohne Zusatz,Generiert aus SA651_DIAGNOSE,Wird aus SA651_DIAGNOSE generiert
+SA651_ICD_ZUSATZ,ICD Code Zusatz,Generiert aus SA651_DIAGNOSE,Wird aus SA651_DIAGNOSE generiert
+SA651_QUALIFIZIERUNG,Qualifizierung der Diagnose: Verdacht auf; Gesichert; Auschluss; Zustand nach,Simple Random Sample ohne Replacement,
+SA651_LOKALISATION,Lokalisation der Diagnose (links/rechts/beide),Simple Random Sample ohne Replacement,
+SA651_ABRECHNUNGSWEG,Abrechnungsweg der Behandlung (),Simple Random Sample ohne Replacement,
+SA751_SATZART,Satzart,,Konstant
+SA751_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA751_BERICHTSJAHR,Berichtsjahr,,Konstant
+SA751_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA751_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA751_AERZTE,Leistungsausgaben in € für Ärzte,Simple Random Sample ohne Replacement,
+SA751_ZAHNAERZTE,Leistungsausgaben in € für Zahnärzte,Simple Random Sample ohne Replacement,
+SA751_APOTHEKEN,Leistungsausgaben in € für Apotheken,Simple Random Sample ohne Replacement,
+SA751_KRANKENHAEUSER,Leistungsausgaben in € für Krankenhäuser,Simple Random Sample ohne Replacement,
+SA751_SONSTIGELA,Leistungsausgaben in € für Sonstige,Simple Random Sample ohne Replacement,
+SA751_SACHKOSTENDIALYSE,Leistungsausgaben in € für Sachenkosten für die Diaglyse,Simple Random Sample ohne Replacement,
+SA751_KRANKENGELD,Leistungsausgaben in € für Krankengeld,Simple Random Sample ohne Replacement,
+SA951_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
+SA951_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
+SA951_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
+SA951_BETRIEBSNUMMER,Betriebsnummer der Krankenkasse,Simple Random Sample ohne Replacement,
+SA131_SATZART,Satzart,,"Konstant, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
+SA131_SCHLUESSELJAHR,Ausgleichjahr,,"Konstant, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
+SA131_BERICHTSJAHR,Berichtsjahr,,"Konstant, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
+SA131_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,"Wird ersetzt, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
+SA131_PSID,Periodenübergreifendes Pseudonym (PüP),,"Wird ersetzt, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
+SA131_PLZ,Postleitzahl,Simple Random Sample ohne Replacement,Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden
+SA999_SATZART,Satzart,Simple Random Sample ohne Replacement,"Konstant, Nur in den Jahren 2009 und 2010 vorhanden"
+SA999_AUSGLEICHSJAHR,Ausgleichjahr,Simple Random Sample ohne Replacement,"Konstant, Nur in den Jahren 2009 und 2010 vorhanden"
+SA999_BERICHTSJAHR,Berichtsjahr,Simple Random Sample ohne Replacement,"Konstant, Nur in den Jahren 2009 und 2010 vorhanden"
+SA999_GS,Allgemeiner Gemeindeschlüssel,Simple Random Sample ohne Replacement,Nur in den Jahren 2009 und 2010 vorhanden
