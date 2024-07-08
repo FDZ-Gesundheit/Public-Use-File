@@ -27,7 +27,7 @@ Um eine Rückrechnung der einzelnen Stichproben zu verhindern, muss die Zufallsq
 Bei diesem Prozess bleiben alle univariaten Verteilungen und Fehler erhalten, alle Verbindungen zwischen Variablen werden jedoch bewusst zerstört.
 
 Nicht alle Variablen sind durch diesen Prozess ausreichend geschützt. Daher werden zusätzlich alle Identifier (mit denen Personen über Jahre und Tabellen identifiziert werden können) durch neue Identifier, die lediglich in der Struktur den ursprünglichen Identifiern entsprechen ersetzt. Die Anzahl der Individuen bleibt dabei erhalten.
-Eine abschließende Liste der Variablen und der genutzten Technik sind in der Datei [variable_processing.csv](https://git.public.bfarm.de/fdz/puf_dm12/-/blob/main/variable_processing.csv) aufgeführt.
+Eine abschließende Liste der Variablen und der genutzten Technik sind in der Datei [variable_processing.csv](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/variable_processing.csv) aufgeführt.
 
 #### k-Anonymität
 
@@ -65,7 +65,7 @@ Dieses Repository enthält die folgenden Dateien:
   
 Zusätzlich gibt es die Skripte [pre_tests.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main//pre_tests.py) und [post_tests.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/post_tests.py). Diese enthalten Unittests um die entwickelten Methoden zu evaluieren. 
   
-Um den Code laufen zu lassen, stellen wir künstlich erzeugte Testdaten in einer SQLite Datenbank-Datei bereit. Die Testdaten werden mit dem Jupyter Notebook [generate_test_data.ipynb](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/generate_test_data.ipynb).
+Um den Code laufen zu lassen, stellen wir künstlich erzeugte Testdaten in einer SQLite Datenbank-Datei bereit. Die Testdaten werden mit dem Jupyter Notebook [generate_test_data.ipynb](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/generate_test_data.ipynb) erzeugt.
 Voraussetzung zum Testen ist daher die Installation von SQLite:  
 Es kann [hier](https://www.sqlite.org/download.html) heruntergeladen werden. Eine Anleitung für Windows gibt es [hier](https://dev.to/dendihandian/installing-sqlite3-in-windows-44eb).
 
