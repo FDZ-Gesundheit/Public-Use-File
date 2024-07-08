@@ -3,3 +3,5 @@ pandas==2.2.1
 pyodbc==5.1.0
 tqdm==4.66.2
 simple-icd-10==2.0.1
+sqlalchemy==2.0.31
+
