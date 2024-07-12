@@ -17,7 +17,7 @@ Das PUF ist ein öffentliches Datenprodukt des [Forschungsdatenzentrum Gesundhei
 * Veröffentlichung einer Stichprobe
 * Veröffentlichung nur eines Berichtsjahres
 
-![Übersicht der Public Use File Erstellung](<puf_erstellung.png>)
+![Übersicht der Public Use File Erstellung](puf_erstellung.png)
 
 Figure 1: Übersicht der Public Use File (PUF) Erstellung.
 
