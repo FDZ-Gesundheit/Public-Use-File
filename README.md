@@ -2,7 +2,7 @@
 
 ### Ziel
 Das Public Use File (PUF) soll es ermöglichen, Auswertungsskripte zu entwickeln, die für die DaTraV Daten geeignet sind, sowie deren technische Möglichkeiten zu evaluieren.
-Konkret heißt das, dass Nutzungsberechtigte bereits vor der Antragsstellung einen Datensatz mit gleicher Struktur und inhaltlicher Nähe zur Verfügung gestellt bekommen, der vollumfänglich anonym ist. So können Skripte schon vor oder während der Antragstellung entwickelt werden um die Gesamtdauer des Forschungsvorhabens deutlich zu verkürzen werden.
+Konkret heißt das, dass Nutzungsberechtigte bereits vor der Antragsstellung einen Datensatz mit gleicher Struktur und inhaltlicher Nähe zur Verfügung gestellt bekommen, der vollumfänglich anonym ist. So können Skripte schon vor, oder während der Antragstellung entwickelt werden, um die Gesamtdauer des Forschungsvorhabens deutlich zu verkürzen werden.
 
 Aufgrund der angestrebten und notwendigen Anonymität wird es nicht möglich sein, mit dem PUF aussagekräftige Ergebnisse zu erzeugen! 
 Alle Korrelationen werden während der Erstellung zerstört. Inferenz auf der Grundlage des PUF ist nicht möglich.
@@ -11,13 +11,13 @@ Alle Korrelationen werden während der Erstellung zerstört. Inferenz auf der Gr
 
 Das PUF ist ein öffentliches Datenprodukt des [Forschungsdatenzentrum Gesundheit](https://www.forschungsdatenzentrum-gesundheit.de/). Um die Publikation des Datenprodukts zu ermöglichen, muss der Datensatz anonym sein. Um Anonymität zu erreichen wurden, haben wir folgende Methoden angewendet:
 
-* Aufläsung aller Korrelationen zwischen Variablen
+* Auflösung aller Korrelationen zwischen Variablen
 * Vergröberung von Variablen, bei denen ein Wert nicht mindesten k-mal vorkommt
 * Ersetzung der Pseudonyme durch zufällige (aber theoretisch gültige) Werte
 * Veröffentlichung einer Stichprobe
 * Veröffentlichung nur eines Berichtsjahres
 
-![Übersicht der Public Use File Erstellung](<puf_erstellung.png>)
+![Übersicht der Public Use File Erstellung](puf_erstellung.png)
 
 Figure 1: Übersicht der Public Use File (PUF) Erstellung.
 
