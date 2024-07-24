@@ -1,5 +1,7 @@
 ## Public Use File für Datenmodelle 1 und 2
 
+> &#128161; Disclaimer: In diesem Repository befindet sich aktuell der Code zum Erstellen des Public Use Files für die Datenmodelle 1 und 2, inklusive generierten Mockdaten zum Testen des Codes, aber bisher NICHT das Public Use File selbst. Nachdem wir Feedback zur Methodik von der Community gesammelt haben, werden wir dieses veröffentlichen und Sie hierüber informieren. 
+
 ### Ziel
 Das Public Use File (PUF) soll es ermöglichen, Auswertungsskripte zu entwickeln, die für die DaTraV Daten geeignet sind, sowie deren technische Möglichkeiten zu evaluieren.
 Konkret heißt das, dass Nutzungsberechtigte bereits vor der Antragsstellung einen Datensatz mit gleicher Struktur und inhaltlicher Nähe zur Verfügung gestellt bekommen, der vollumfänglich anonym ist. So können Skripte schon vor oder während der Antragstellung entwickelt werden, um die Gesamtdauer des Forschungsvorhabens deutlich zu verkürzen.
