@@ -93,12 +93,12 @@ def force_k(values: pd.Series, value_type: str, k: int):
     elif value_type == 'category':
         k_fulfilled = df['values'].value_counts(dropna=False).loc[lambda x: x >= k]
         k_not_fulfilled = df['values'].value_counts(dropna=False).loc[lambda x: x < k]
-        if len(k_not_fulfilled) == 1 or (sum(k_not_fulfilled) < k and sum(k_not_fulfilled) > 0):
+        if len(k_not_fulfilled) == 1 or (k > sum(k_not_fulfilled) > 0):
             # if we do have only one category that does not fulfill k,
             # or several categories where their sum does not fulfill k either,
-            # we merge these values with the smallest valid category (second to last)
+            # we merge these values with the smallest valid category
             # and call it 'Other'
-            smallest_valid_category = df['values'].value_counts(dropna=False).index.tolist()[-2]
+            smallest_valid_category = k_fulfilled.index.tolist()[-1]
             df['Other'] = df['values'].apply(lambda x: x if x in k_fulfilled
                                              and x is not smallest_valid_category else 'Other')
         else:
