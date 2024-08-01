@@ -18,7 +18,7 @@ class TestDataProcessing(unittest.TestCase):
         print(f"Test k_anonymity with k={k}")
         int_values = pd.Series([1, 1, 1, 1, 3, 3, 3, 5, 5, 5, 5, 5])
         float_values = pd.Series([0.5, 0.7, 1.3, 1.3, 0.8, 1.4, 0.5, 0.7, 1.2, 1.1, 1.2, 1.2, 1.2, 1.0])
-        cat_values = pd.Series(['L', 'R', 'L', 'B', 'B', 'B', 'R', 'R', 'R'])
+        cat_values = pd.Series(['L', 'R', 'L', 'B', 'B', 'B', 'L', 'R', 'R', 'R', 'F', 'I'])
         cat_values_nan = pd.Series(['L', 'R', 'L', None, 'B', 'B', None, 'B', 'R', None, 'R', 'R'])
         year_values = pd.Series([2010, 2010, 2011, 2011, 2012, 2012, 2012, 2013, 2014])
         for values, data_type in zip([int_values, float_values, cat_values, cat_values_nan, year_values],
