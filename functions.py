@@ -20,13 +20,13 @@ def generate_secure_bytes(size: int, n_bytes=32):
         size: Length of array to be returned.
         n_bytes: Number of bytes to generate a random byte string.
     Returns:
-        numpy.ndarray: Array of secure random integers.
+        numpy.ndarray: Array of secure random bytes.
     """
     return np.array([secrets.token_hex(n_bytes) for _ in range(size)])
 
 
 def shuffle_column(variable: pd.Series):
-    """Shuffle values based on random integers.
+    """Shuffle values based on random bytes.
 
     Parameters:
         variable (array-like): Input vector of any length.
@@ -37,7 +37,7 @@ def shuffle_column(variable: pd.Series):
     # Generate random integers for sorting
     random_integers = generate_secure_bytes(len(variable))
 
-    # Sort variable using the random integers
+    # Sort variable using the random bytes
     # Returns the indices that would sort an array.
     sorted_indices = np.argsort(random_integers)
     shuffled_variable = np.array(variable)[sorted_indices]
