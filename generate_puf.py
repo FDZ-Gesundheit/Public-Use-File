@@ -1,8 +1,10 @@
 import os
+import random
 import sys
 import argparse
 
 import csv
+
 import pandas as pd
 from helpers import connect_to_database, get_data_types, get_pseudo_variables, get_constant_variables, clean_data
 from functions import force_k, generate_pseudonym, shuffle_column
@@ -12,7 +14,15 @@ from multiprocessing import Pool, cpu_count
 
 warnings.simplefilter(action='ignore', category=UserWarning)
 K = 5
-REPLACE_IDS = {}
+
+
+def generate_pool_of_ids(col: str, table: str):
+    prefix = get_prefix("SA151")
+    table_name = f"{prefix}{args.year}{table}"
+    cur.execute(f"SELECT SA151_{col} from {table_name}")
+    data = pd.Series([entry[0] for entry in cur.fetchall()])
+    id_pool = [generate_pseudonym(len(value)) for value in data]
+    return id_pool
 
 
 def get_prefix(table: str) -> str:
@@ -100,13 +110,10 @@ def process_data(arguments):
             data = force_k(data, data_type, k=K)
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
-        # 3) generate and replace pseudonyms
-        elif col == "SA151_PSID" or col == "SA151_VSID":
-            for psid in data:
-                REPLACE_IDS[psid] = generate_pseudonym(len(str(psid)))
+        # 3) replace pseudonyms
         if col in get_pseudo_variables():
-            data = data.map(REPLACE_IDS)
-            assert False not in data.isnull()
+            key = col[col.find("_") + 1:]
+            data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
 
         # 4) write data into csv files
         if e == 0:
@@ -125,7 +132,7 @@ def process_data(arguments):
                 writer.writerow(next(csv_reader) + [col])
                 for i, (row, value) in enumerate(zip(csv_reader, data)):
                     writer.writerow(row + [value])
-            os.remove(f"output_csv/{table}_{e-1}.csv")
+            os.remove(f"output_csv/{table}_{e - 1}.csv")
     os.rename(f"output_csv/{table}_{e}.csv", f"output_csv/{table}.csv")
 
     return
@@ -154,12 +161,17 @@ if __name__ == '__main__':
     parser.add_argument("--password", default="fdz", help="Password to connect to database, default: fdz")
     parser.add_argument("--year", default="2016", help="Year for data creation, default: 2016")
     parser.add_argument("--multi_threading", default=False, help="Whether to parallelize the code in multiple "
-                                                                "threads, default: False")
+                                                                 "threads, default: False")
     args = parser.parse_args()
 
     begin = datetime.now()
     # connect to database:
     cnxn, cur = connect_to_database()
+
+    # get pool for all person ids:
+    psid_pool = generate_pool_of_ids("PSID", "SA151")
+    vsid_pool = generate_pool_of_ids("VSID", "SA151")
+    id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
 
     # drop all tables and create new ones - needed for testing purposes
     all_tables = ["SA151", "SA131", "SA152", "SA153", "SA551", "SA651", "SA751", "SA951", "SA451"]
@@ -189,7 +201,5 @@ if __name__ == '__main__':
     for table in all_tables:
         print(f"Writing table {table} to database.")
         write_to_database(table)
-
-    del REPLACE_IDS
 
     print(f"The whole process took {datetime.now() - begin}.")
