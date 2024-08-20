@@ -67,9 +67,8 @@ def process_data(arguments):
     table, args = arguments
     dtypes = get_data_types()
     prefix = get_prefix(table)
-    table_name = f"{prefix}{args.year}{table}_puf"
+    table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
-
 
     # get single column and process it
     # this is needed due to memory issues
@@ -78,7 +77,7 @@ def process_data(arguments):
     for e, col in enumerate(columns):
         connection, cursor = connect_to_database()
         # get data
-        cursor.execute(f"SELECT {col} from {prefix}{args.year}{table}")
+        cursor.execute(f"SELECT {col} from {table_name}")
         data = pd.Series([entry[0] for entry in cursor.fetchall()])
         connection.close()
         print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
