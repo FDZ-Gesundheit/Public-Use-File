@@ -71,7 +71,7 @@ def force_k(values: pd.Series, value_type: str, k: int):
     """
     # convert series into dataframe for better processing
     df = pd.DataFrame({'values': list(values)})
-    if value_type in ['date', 'year', 'integer', 'float', 'month']:
+    if value_type in ['date', 'year', 'integer', 'float', 'month', 'alphanumeric']:
         while True:
             number_counts = df['values'].value_counts(dropna=False)
             numbers_to_change = number_counts[number_counts < k].index
@@ -81,11 +81,7 @@ def force_k(values: pd.Series, value_type: str, k: int):
             cur_number = numbers_subset['values'].iloc[0]
             nearest_number = find_nearest_number(df['values'].dropna(), cur_number)
             df.loc[df['values'] == cur_number] = nearest_number
-        if value_type == "date":
-            output = pd.Series([int(str(date).replace("-", "")) for date in pd.Series(df['values'].to_list())])
-            return output
-        else:
-            return pd.Series(df['values'].to_list())
+        return pd.Series(df['values'].to_list())
     elif value_type == 'string':
         while not check_k_single_variable(values, k):
             values = [value[:-1] for value in values]

@@ -6,7 +6,8 @@ import argparse
 import csv
 
 import pandas as pd
-from helpers import connect_to_database, get_data_types, get_pseudo_variables, get_constant_variables, clean_data
+from helpers import (connect_to_database, get_data_types, get_pseudo_variables, get_constant_variables, clean_data,
+                     get_pseudo_mapping)
 from functions import force_k, generate_pseudonym, shuffle_column
 import warnings
 from datetime import datetime
@@ -14,15 +15,6 @@ from multiprocessing import Pool, cpu_count
 
 warnings.simplefilter(action='ignore', category=UserWarning)
 K = 5
-
-
-def generate_pool_of_ids(col: str, table: str):
-    prefix = get_prefix("SA151")
-    table_name = f"{prefix}{args.year}{table}"
-    cur.execute(f"SELECT SA151_{col} from {table_name}")
-    data = pd.Series([entry[0] for entry in cur.fetchall()])
-    id_pool = [generate_pseudonym(len(value)) for value in data]
-    return id_pool
 
 
 def get_prefix(table: str) -> str:
@@ -34,6 +26,15 @@ def get_prefix(table: str) -> str:
         prefix (str): Prefix of the table
     """
     return "V" if table == 'SA131' else "VBJ"
+
+
+def generate_pool_of_ids(col: str, table: str, data_model: int):
+    prefix = get_prefix(table)
+    table_name = f"{prefix}{args.year}{table}"
+    cur.execute(f"SELECT {col} from {table_name}")
+    data = pd.Series([entry[0] for entry in cur.fetchall()])
+    id_pool = [generate_pseudonym(len(str(value))) for value in data]
+    return id_pool
 
 
 def get_columns(table_name: str, args: argparse.Namespace) -> list:
@@ -48,7 +49,7 @@ def get_columns(table_name: str, args: argparse.Namespace) -> list:
         columns (list): A list of column names from the specified table
     """
 
-    connection, cursor = connect_to_database()
+    connection, cursor = connect_to_database(data_model=dm)
     if args.dsn == "sqlite":
         info_query = f"PRAGMA table_info({table_name})"
         df_info = pd.read_sql_query(info_query, con=connection)
@@ -75,7 +76,7 @@ def process_data(arguments):
     """
 
     table, args = arguments
-    dtypes = get_data_types()
+    dtypes = get_data_types(data_model=dm)
     prefix = get_prefix(table)
     table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
@@ -85,14 +86,14 @@ def process_data(arguments):
     # whole tables cannot be loaded and stored in a pandas dataframe
     begin = datetime.now()
     for e, col in enumerate(columns):
-        connection, cursor = connect_to_database()
+        connection, cursor = connect_to_database(data_model=dm)
         # get data
         cursor.execute(f"SELECT {col} from {table_name}")
         data = pd.Series([entry[0] for entry in cursor.fetchall()])
         connection.close()
         print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
 
-        if col not in get_pseudo_variables() + get_constant_variables():
+        if col not in get_pseudo_variables(data_model=dm) + get_constant_variables(data_model=dm):
             print(col)
             begin = datetime.now()
             # iterate over each column to clean data types
@@ -111,7 +112,7 @@ def process_data(arguments):
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
         # 3) replace pseudonyms
-        if col in get_pseudo_variables():
+        if col in get_pseudo_variables(data_model=dm):
             key = col[col.find("_") + 1:]
             data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
 
@@ -159,33 +160,49 @@ if __name__ == '__main__':
     parser.add_argument("--dsn", default="sqlite", help="Data source name for ODBC data source, default: sqlite")
     parser.add_argument("--username", default="fdz", help="Username to connect to database, default: fdz")
     parser.add_argument("--password", default="fdz", help="Password to connect to database, default: fdz")
-    parser.add_argument("--year", default="2016", help="Year for data creation, default: 2016")
+    parser.add_argument("--year", default="2019", help="Year for data creation, default: 2016")
     parser.add_argument("--multi_threading", default=False, help="Whether to parallelize the code in multiple "
                                                                  "threads, default: False")
     args = parser.parse_args()
+    # get data model
+    dm = 2 if args.year <= "2018" else 3
 
     begin = datetime.now()
     # connect to database:
-    cnxn, cur = connect_to_database()
+    cnxn, cur = connect_to_database(data_model=dm)
 
     # get pool for all person ids:
-    psid_pool = generate_pool_of_ids("PSID", "SA151")
-    vsid_pool = generate_pool_of_ids("VSID", "SA151")
-    id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
+    if dm == 2:
+        psid_pool = generate_pool_of_ids("PSID", "SA151", data_model=dm)
+        vsid_pool = generate_pool_of_ids("VSID", "SA151", data_model=dm)
+        id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
+    else:
+        pseudo_mapping = get_pseudo_mapping(data_model=dm)
+        id_pool_mapping = {key: [] for key in pseudo_mapping.keys()}
+        for col in id_pool_mapping.keys():
+            id_pool_mapping[col] = generate_pool_of_ids(col, pseudo_mapping[col], data_model=dm)
 
     # drop all tables and create new ones - needed for testing purposes
-    all_tables = ["SA151", "SA131", "SA152", "SA153", "SA551", "SA651", "SA751", "SA951", "SA451"]
+    if dm == 2:
+        all_tables = ["SA151", "SA131", "SA152", "SA153", "SA551", "SA651", "SA751", "SA951", "SA451"]
+        create_path = "create_puf_tables.sql"
+    else:
+        all_tables = ["VERS", "VERSQ", "VERSQDMP", "REZ", "AMBFALL", "KHFALL", "ZAHNFALL", "FALLIDAMB",
+                      "AMBDIAG", "AMBOPS", "AMBLEIST", "FALLIDKH", "KHFA", "KHENTG", "KHDIAG", "KHPROZ", "FALLIDZAHN",
+                      "ZAHNLEIST", "ZAHNBEF", "REZNR", "EZD", "LIEFER", "VS"]
+        create_path = "create_puf_tables_dm3.sql"
     drop_all = " ".join([f"DROP TABLE IF EXISTS {get_prefix(table)}{args.year}{table}_puf;" for table in all_tables])
     cur.executescript(drop_all)
 
     # generate new tables
-    with open("create_puf_tables.sql", "r") as f_tables:
+    with open(create_path, "r") as f_tables:
         sql_create_tables = f_tables.read().format(prefix="VBJ", receiving_year=args.year,
                                                    clearing_year=int(args.year) - 1,
                                                    schema="puf")
     cur.executescript(sql_create_tables)
     cnxn.close()
 
+    all_tables = ["REZ"]
     if args.multi_threading:
         num_processes = min(len(all_tables), cpu_count())
         print(f"Multi-threading is used with {num_processes} processes.")

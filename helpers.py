@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 
-def connect_to_database(dsn="sqlite", username="fdz", password="fdz"):
+def connect_to_database(dsn="sqlite", username="fdz", password="fdz", data_model=2):
     if dsn == "oracle":
         # get oracle connection with test database
         connect_string = f"DSN={dsn};UID={username};PWD={password}"
@@ -14,7 +14,8 @@ def connect_to_database(dsn="sqlite", username="fdz", password="fdz"):
         except ConnectionError:
             return False
     elif dsn == "sqlite":
-        connect_string = f"test_data/fdz_generated_data_dm12.db"
+        connect_string = f"test_data/fdz_generated_data_dm12.db" if data_model == 2 \
+            else "../../fdz-dm3-testdaten/scripts/SQLLoader/fdz_data_dm3.db"
         try:
             cnxn = sqlite3.connect(connect_string)
             cursor = cnxn.cursor()
@@ -26,7 +27,7 @@ def connect_to_database(dsn="sqlite", username="fdz", password="fdz"):
     return cnxn, cursor
 
 
-def get_constant_variables():
+def get_constant_variables(data_model=2):
     const = ['SA151_AUSGLEICHSJAHR', 'SA152_AUSGLEICHSJAHR', 'SA153_AUSGLEICHSJAHR', 'SA451_AUSGLEICHSJAHR',
              'SA551_AUSGLEICHSJAHR', 'SA651_AUSGLEICHSJAHR', 'SA751_AUSGLEICHSJAHR', 'SA951_AUSGLEICHSJAHR',
              'SA999_AUSGLEICHSJAHR', 'SA131_AUSGLEICHSJAHR', 'SA151_BERICHTSJAHR', 'SA152_BERICHTSJAHR',
@@ -34,19 +35,25 @@ def get_constant_variables():
              'SA751_BERICHTSJAHR', 'SA999_BERICHTSJAHR', 'SA131_BERICHTSJAHR', 'SA151_SATZART', 'SA152_SATZART',
              'SA153_SATZART', 'SA451_SATZART', 'SA551_SATZART', 'SA651_SATZART', 'SA751_SATZART', 'SA999_SATZART',
              'SA131_SATZART']
-    return const
+    return const if data_model == 2 else ['bjahr']
 
 
-def get_pseudo_variables():
-    pseudos = ['SA151_VSID', 'SA151_PSID', 'SA152_VSID', 'SA152_PSID', 'SA153_VSID', 'SA153_PSID', 'SA451_VSID',
-               'SA451_PSID', 'SA551_VSID', 'SA551_PSID', 'SA651_VSID', 'SA651_PSID', 'SA751_VSID', 'SA751_PSID',
-               'SA951_VSID', 'SA951_PSID', 'SA999_PSID', 'SA131_PSID', 'SA131_VSID']
+def get_pseudo_variables(data_model=2):
+    pseudos = pd.read_csv("data_types.csv").query('Type == "pseudo" and Datamodel == @data_model').Variable.to_list()
     return pseudos
 
 
-def get_data_types():
-    data_types = pd.read_csv("data_types.csv")
+def get_data_types(data_model=2):
+    data_types = pd.read_csv("data_types.csv").query('Datamodel == @data_model')
     return dict(zip(data_types.Variable, data_types.Type))
+
+
+def get_pseudo_mapping(data_model=2):
+    data_types = pd.read_csv("data_types.csv").query('Type == "pseudo" and Datamodel == @data_model')
+    d = {}
+    for i, row in data_types.iterrows():
+        d[row.Variable] = row.Table
+    return d
 
 
 def clean_data(column_data, dt):
