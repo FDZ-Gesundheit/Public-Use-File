@@ -17,12 +17,22 @@ class TestDataProcessing(unittest.TestCase):
         k = 3
         print(f"Test k_anonymity with k={k}")
         int_values = pd.Series([1, 1, 1, 1, 3, 3, 3, 5, 5, 5, 5, 5])
+        int_values_nan = pd.Series([1, 1, 1, 1, 3, 3, 3, 5, 5, 5, 5, 5, None, None])
         float_values = pd.Series([0.5, 0.7, 1.3, 1.3, 0.8, 1.4, 0.5, 0.7, 1.2, 1.1, 1.2, 1.2, 1.2, 1.0])
         cat_values = pd.Series(['L', 'R', 'L', 'B', 'B', 'B', 'L', 'R', 'R', 'R', 'F', 'I'])
         cat_values_nan = pd.Series(['L', 'R', 'L', None, 'B', 'B', None, 'B', 'R', None, 'R', 'R'])
+        cat_values_nan_1 = pd.Series(['L', 'R', 'L', None, 'B', 'B', None, 'B', 'R', 'R', 'R'])
         year_values = pd.Series([2010, 2010, 2011, 2011, 2012, 2012, 2012, 2013, 2014])
-        for values, data_type in zip([int_values, float_values, cat_values, cat_values_nan, year_values],
-                                     ['integer', 'float', 'category', 'category', 'year']):
+        date_values = pd.to_datetime(pd.Series(["2010-01-01", None, None, None, None, "2010-02-01"]),
+                                     errors='coerce').dt.date
+        date_values = date_values.apply(lambda x: x if not pd.isnull(x) else None)
+        date_values_nan = pd.to_datetime(pd.Series(["2010-01-01", "2010-01-01", "2010-01-01", None, None, "2010-02-01"]),
+                                     errors='coerce').dt.date
+        date_values_nan = date_values.apply(lambda x: x if not pd.isnull(x) else None)
+        for values, data_type in zip([int_values, int_values_nan, float_values, cat_values, cat_values_nan,
+                                      cat_values_nan_1, year_values, date_values, date_values_nan],
+                                     ['integer', 'integer', 'float', 'category', 'category', 'category', 'year',
+                                      'date', 'date']):
             print("before\t\t", list(values))
             k_values = force_k(values, data_type, k)
             print("afterwards\t", list(k_values), "\n")
