@@ -28,7 +28,7 @@ class TestDataProcessing(unittest.TestCase):
         date_values = date_values.apply(lambda x: x if not pd.isnull(x) else None)
         date_values_nan = pd.to_datetime(pd.Series(["2010-01-01", "2010-01-01", "2010-01-01", None, None, "2010-02-01"]),
                                      errors='coerce').dt.date
-        date_values_nan = date_values.apply(lambda x: x if not pd.isnull(x) else None)
+        date_values_nan = date_values_nan.apply(lambda x: x if not pd.isnull(x) else None)
         for values, data_type in zip([int_values, int_values_nan, float_values, cat_values, cat_values_nan,
                                       cat_values_nan_1, year_values, date_values, date_values_nan],
                                      ['integer', 'integer', 'float', 'category', 'category', 'category', 'year',
