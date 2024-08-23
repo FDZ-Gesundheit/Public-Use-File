@@ -33,7 +33,7 @@ def generate_pool_of_ids(col: str, table: str, data_model: int):
     table_name = f"{prefix}{args.year}{table}"
     cur.execute(f"SELECT {col} from {table_name}")
     data = pd.Series([entry[0] for entry in cur.fetchall()])
-    id_pool = [generate_pseudonym(len(str(value))) for value in data]
+    id_pool = [generate_pseudonym(len(str(value))) for value in set(data)]
     return id_pool
 
 
@@ -114,7 +114,12 @@ def process_data(arguments):
         # 3) replace pseudonyms
         if col in get_pseudo_variables(data_model=dm):
             key = col[col.find("_") + 1:]
-            data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
+            if table in ['SA151', 'SA152', 'SA751', 'SA131', 'VERS']:
+                data = pd.Series(id_pool_mapping[key]
+                                 + [random.choice(id_pool_mapping[key]) for _ in
+                                    range(len(data) - len(id_pool_mapping[key]))])
+            else:
+                data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
 
         # 4) write data into csv files
         if e == 0:
@@ -135,13 +140,12 @@ def process_data(arguments):
                     writer.writerow(row + [value])
             os.remove(f"output_csv/{table}_{e - 1}.csv")
     os.rename(f"output_csv/{table}_{e}.csv", f"output_csv/{table}.csv")
-
     return
 
 
 def write_to_database(table: str):
     table_name = f"{get_prefix(table)}{args.year}{table}_puf"
-    cnxn, cur = connect_to_database()
+    cnxn, cur = connect_to_database(data_model=dm)
     with (open(f"output_csv/{table}.csv", "r") as f):
         reader = csv.reader(f, delimiter=",")
         for i, row in enumerate(reader):
@@ -160,12 +164,12 @@ if __name__ == '__main__':
     parser.add_argument("--dsn", default="sqlite", help="Data source name for ODBC data source, default: sqlite")
     parser.add_argument("--username", default="fdz", help="Username to connect to database, default: fdz")
     parser.add_argument("--password", default="fdz", help="Password to connect to database, default: fdz")
-    parser.add_argument("--year", default="2019", help="Year for data creation, default: 2016")
+    parser.add_argument("--year", default=2019, help="Year for data creation, default: 2016")
     parser.add_argument("--multi_threading", default=False, help="Whether to parallelize the code in multiple "
                                                                  "threads, default: False")
     args = parser.parse_args()
     # get data model
-    dm = 2 if args.year <= "2018" else 3
+    dm = 2 if args.year <= 2018 else 3
 
     begin = datetime.now()
     # connect to database:
@@ -173,8 +177,8 @@ if __name__ == '__main__':
 
     # get pool for all person ids:
     if dm == 2:
-        psid_pool = generate_pool_of_ids("PSID", "SA151", data_model=dm)
-        vsid_pool = generate_pool_of_ids("VSID", "SA151", data_model=dm)
+        psid_pool = generate_pool_of_ids("SA151_PSID", "SA151", data_model=dm)
+        vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151", data_model=dm)
         id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
     else:
         pseudo_mapping = get_pseudo_mapping(data_model=dm)
@@ -187,9 +191,9 @@ if __name__ == '__main__':
         all_tables = ["SA151", "SA131", "SA152", "SA153", "SA551", "SA651", "SA751", "SA951", "SA451"]
         create_path = "create_puf_tables.sql"
     else:
-        all_tables = ["VERS", "VERSQ", "VERSQDMP", "REZ", "AMBFALL", "KHFALL", "ZAHNFALL", "FALLIDAMB",
-                      "AMBDIAG", "AMBOPS", "AMBLEIST", "FALLIDKH", "KHFA", "KHENTG", "KHDIAG", "KHPROZ", "FALLIDZAHN",
-                      "ZAHNLEIST", "ZAHNBEF", "REZNR", "EZD", "LIEFER", "VS"]
+        all_tables = ["VERS", "VERSQ", "VERSQDMP", "REZ", "AMBFALL", "KHFALL", "ZAHNFALL",
+                      "AMBDIAG", "AMBOPS", "AMBLEIST", "KHFA", "KHENTG", "KHDIAG", "KHPROZ",
+                      "ZAHNLEIST", "ZAHNBEF", "EZD", "VS"]
         create_path = "create_puf_tables_dm3.sql"
     drop_all = " ".join([f"DROP TABLE IF EXISTS {get_prefix(table)}{args.year}{table}_puf;" for table in all_tables])
     cur.executescript(drop_all)
@@ -202,7 +206,6 @@ if __name__ == '__main__':
     cur.executescript(sql_create_tables)
     cnxn.close()
 
-    all_tables = ["REZ"]
     if args.multi_threading:
         num_processes = min(len(all_tables), cpu_count())
         print(f"Multi-threading is used with {num_processes} processes.")
