@@ -1,7 +1,6 @@
 import pyodbc
 import sqlite3
 import pandas as pd
-import numpy as np
 
 
 def connect_to_database(dsn="sqlite", username="fdz", password="fdz", data_model=2):
@@ -60,8 +59,8 @@ def clean_data(column_data, dt):
     if dt == "category":
         column_data = column_data.astype('category')
     elif dt == "date":
-        column_data = pd.to_datetime(column_data, format='%Y%m%d').dt.date
-        column_data.replace({np.nan: None}, inplace=True)
+        column_data = pd.to_datetime(column_data, errors='coerce').dt.date
+        column_data = column_data.apply(lambda x: x if not pd.isnull(x) else None)
     elif dt == "year":
         column_data = pd.to_datetime(column_data, format='%Y').dt.year
     elif dt == "integer":
