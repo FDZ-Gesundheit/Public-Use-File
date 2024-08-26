@@ -17,11 +17,13 @@ K = 5
 
 
 def generate_pool_of_ids(col: str, table: str):
-    prefix = get_prefix("SA151")
+    conn, cursor = connect_to_database()
+    prefix = get_prefix(table)
     table_name = f"{prefix}{args.year}{table}"
-    cur.execute(f"SELECT SA151_{col} from {table_name}")
-    data = pd.Series([entry[0] for entry in cur.fetchall()])
-    id_pool = [generate_pseudonym(len(value)) for value in data]
+    cursor.execute(f"SELECT {col} from {table_name}")
+    data = pd.Series([entry[0] for entry in cursor.fetchall()])
+    id_pool = [generate_pseudonym(len(str(value))) for value in set(data)]
+    conn.close()
     return id_pool
 
 
@@ -113,7 +115,12 @@ def process_data(arguments):
         # 3) replace pseudonyms
         if col in get_pseudo_variables():
             key = col[col.find("_") + 1:]
-            data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
+            if table in ['SA151', 'SA152', 'SA751', 'SA131']:
+                data = pd.Series(id_pool_mapping[key]
+                                 + [random.choice(id_pool_mapping[key]) for _ in
+                                    range(len(data) - len(id_pool_mapping[key]))])
+            else:
+                data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
 
         # 4) write data into csv files
         if e == 0:
@@ -169,8 +176,8 @@ if __name__ == '__main__':
     cnxn, cur = connect_to_database()
 
     # get pool for all person ids:
-    psid_pool = generate_pool_of_ids("PSID", "SA151")
-    vsid_pool = generate_pool_of_ids("VSID", "SA151")
+    psid_pool = generate_pool_of_ids("SA151_PSID", "SA151")
+    vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151")
     id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
 
     # drop all tables and create new ones - needed for testing purposes
