@@ -22,7 +22,7 @@ def generate_pool_of_ids(col: str, table: str):
     table_name = f"{prefix}{args.year}{table}"
     cursor.execute(f"SELECT {col} from {table_name}")
     data = pd.Series([entry[0] for entry in cursor.fetchall()])
-    id_pool = [generate_pseudonym(len(str(value))) for value in set(data)]
+    id_pool = [generate_pseudonym(col, len(str(value))) for value in set(data)]
     conn.close()
     return id_pool
 

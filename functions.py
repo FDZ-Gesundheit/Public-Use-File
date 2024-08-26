@@ -120,7 +120,7 @@ def find_nearest_number(values: pd.Series, single_value):
 
 
 def generate_pseudonym(variable: string, length=19):
-    if variable == 'VSID':
+    if 'VSID' in variable:
         return ''.join(random.choices(POSSIBLE_CHARACTERS, k=length))
     else:
         return ''.join(random.choices(string.digits, k=length))
