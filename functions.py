@@ -119,5 +119,8 @@ def find_nearest_number(values: pd.Series, single_value):
     return min(values, key=lambda x: abs(x - single_value))
 
 
-def generate_pseudonym(length=19):
-    return ''.join(random.choices(POSSIBLE_CHARACTERS, k=length))
+def generate_pseudonym(variable: string, length=19):
+    if 'VSID' in variable:
+        return ''.join(random.choices(POSSIBLE_CHARACTERS, k=length))
+    else:
+        return ''.join(random.choices(string.digits, k=length))
