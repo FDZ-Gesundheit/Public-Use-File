@@ -84,17 +84,32 @@ def process_data(arguments):
     # get single column and process it
     # this is needed due to memory issues
     # whole tables cannot be loaded and stored in a pandas dataframe
-    begin = datetime.now()
     for e, col in enumerate(columns):
         connection, cursor = connect_to_database(data_model=dm)
-        # get data
-        cursor.execute(f"SELECT {col} from {table_name}")
-        data = pd.Series([entry[0] for entry in cursor.fetchall()])
-        connection.close()
-        print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
+        if col in get_constant_variables(data_model=dm):
+            cursor.execute(f"SELECT {col} from {table_name} LIMIT 1")
+            data = pd.Series([entry[0] for entry in cursor.fetchall()])
+            cursor.execute(f"SELECT COUNT(*) from {table_name}")
+            n = cursor.fetchall()[0][0]
+            data = pd.Series([data[0]]*n)
+            connection.close()
 
-        if col not in get_pseudo_variables(data_model=dm) + get_constant_variables(data_model=dm):
-            print(col)
+        elif col in get_pseudo_variables(data_model=dm):
+            cursor.execute(f"SELECT COUNT(*) from {table_name}")
+            n = cursor.fetchall()[0][0]
+            key = col[col.find("_") + 1:]
+            if table in ['SA151', 'SA152', 'SA751', 'SA131', 'VERS']:
+                data = pd.Series(id_pool_mapping[key]
+                                 + [random.choice(id_pool_mapping[key]) for _ in
+                                    range(n - len(id_pool_mapping[key]))])
+            else:
+                data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(n)])
+
+        else:  # get data
+            cursor.execute(f"SELECT {col} from {table_name}")
+            data = pd.Series([entry[0] for entry in cursor.fetchall()])
+            connection.close()
+            print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
             begin = datetime.now()
             # iterate over each column to clean data types
             data_type = dtypes[col]
@@ -110,16 +125,6 @@ def process_data(arguments):
             begin = datetime.now()
             data = force_k(data, data_type, k=K)
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
-
-        # 3) replace pseudonyms
-        if col in get_pseudo_variables(data_model=dm):
-            key = col[col.find("_") + 1:]
-            if table in ['SA151', 'SA152', 'SA751', 'SA131', 'VERS']:
-                data = pd.Series(id_pool_mapping[key]
-                                 + [random.choice(id_pool_mapping[key]) for _ in
-                                    range(len(data) - len(id_pool_mapping[key]))])
-            else:
-                data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(len(data))])
 
         # 4) write data into csv files
         if e == 0:
