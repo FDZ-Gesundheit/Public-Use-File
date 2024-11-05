@@ -88,14 +88,30 @@ def process_data(arguments):
     begin = datetime.now()
     for e, col in enumerate(columns):
         connection, cursor = connect_to_database()
-        # get data
-        cursor.execute(f"SELECT {col} from {table_name}")
-        data = pd.Series([entry[0] for entry in cursor.fetchall()])
-        connection.close()
-        print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
+        if col in get_constant_variables():
+            cursor.execute(f"SELECT {col} from {table_name} LIMIT 1")
+            data = pd.Series([entry[0] for entry in cursor.fetchall()])
+            cursor.execute(f"SELECT COUNT(*) from {table_name}")
+            n = cursor.fetchall()[0][0]
+            data = pd.Series([data[0]]*n)
+            connection.close()
 
-        if col not in get_pseudo_variables() + get_constant_variables():
-            print(col)
+        elif col in get_pseudo_variables():
+            cursor.execute(f"SELECT COUNT(*) from {table_name}")
+            n = cursor.fetchall()[0][0]
+            key = col[col.find("_") + 1:]
+            if table in ['SA151', 'SA152', 'SA751', 'SA131']:
+                data = pd.Series(id_pool[key]
+                                 + [random.choice(id_pool[key]) for _ in
+                                    range(n - len(id_pool[key]))])
+            else:
+                data = pd.Series([random.choice(id_pool[key]) for _ in range(n)])
+
+        else:  # get data
+            cursor.execute(f"SELECT {col} from {table_name}")
+            data = pd.Series([entry[0] for entry in cursor.fetchall()])
+            connection.close()
+            print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
             begin = datetime.now()
             # iterate over each column to clean data types
             data_type = dtypes[col]
@@ -111,16 +127,6 @@ def process_data(arguments):
             begin = datetime.now()
             data = force_k(data, data_type, k=K)
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
-
-        # 3) replace pseudonyms
-        if col in get_pseudo_variables():
-            key = col[col.find("_") + 1:]
-            if table in ['SA151', 'SA152', 'SA751', 'SA131']:
-                data = pd.Series(id_pool[key]
-                                 + [random.choice(id_pool[key]) for _ in
-                                    range(len(data) - len(id_pool[key]))])
-            else:
-                data = pd.Series([random.choice(id_pool[key]) for _ in range(len(data))])
 
         # 4) write data into csv files
         if e == 0:
@@ -166,11 +172,11 @@ if __name__ == '__main__':
     parser.add_argument("--dsn", default="sqlite", help="Data source name for ODBC data source, default: sqlite")
     parser.add_argument("--username", default="fdz", help="Username to connect to database, default: fdz")
     parser.add_argument("--password", default="fdz", help="Password to connect to database, default: fdz")
-    parser.add_argument("--year", default="2016", help="Year for data creation, default: 2016")
-    parser.add_argument("--multi_threading", default=True, help="Whether to parallelize the code in multiple "
+    parser.add_argument("--year", default=2016, help="Year for data creation, default: 2016")
+    parser.add_argument("--sample", default=3, help="Amount of sample in percent, default: 3")
+    parser.add_argument("--multi_threading", default=False, help="Whether to parallelize the code in multiple "
                                                                 "threads, default: False")
     args = parser.parse_args()
-
     begin = datetime.now()
     # connect to database:
     cnxn, cur = connect_to_database()
@@ -181,9 +187,11 @@ if __name__ == '__main__':
     id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
 
     # drop all tables and create new ones - needed for testing purposes
-    all_tables = ["SA151", "SA131", "SA152", "SA153", "SA551", "SA651", "SA751", "SA951", "SA451"]
+    all_tables = ["SA651", "SA151", "SA131", "SA152", "SA153", "SA551", "SA751", "SA951", "SA451"]
     drop_all = " ".join([f"DROP TABLE IF EXISTS {get_prefix(table)}{args.year}{table}_puf;" for table in all_tables])
+    drop_all_samples = " ".join([f"DROP TABLE IF EXISTS {table}_sample;" for table in all_tables])
     cur.executescript(drop_all)
+    cur.executescript(drop_all_samples)
 
     # generate new tables
     with open("create_puf_tables.sql", "r") as f_tables:
@@ -191,7 +199,6 @@ if __name__ == '__main__':
                                                    clearing_year=int(args.year) - 1,
                                                    schema="puf")
     cur.executescript(sql_create_tables)
-    cnxn.close()
 
     if args.multi_threading:
         num_processes = min(len(all_tables), cpu_count())
@@ -202,11 +209,28 @@ if __name__ == '__main__':
         for table in all_tables:
             process_data((table, args, id_pool_mapping))
 
+    # get sample (Stichprobe von 3%) and write it into the database
+    if not os.path.isdir("output_csv_sample"):
+        os.mkdir("output_csv_sample")
+    print(int(len(id_pool_mapping["PSID"])*(args.sample*0.01)))
+    sample_psids = [i for i in random.sample(id_pool_mapping["PSID"],
+                                             int(len(id_pool_mapping["PSID"])*(args.sample*0.01)))]
+    for table in all_tables:
+        for chunk in pd.read_csv(f"output_csv/{table}.csv", chunksize=5000):
+            sample = chunk[chunk[f"{table}_PSID"].isin(sample_psids)]
+            rows = [tuple(row) for i, row in sample.iterrows()]
+            sql_query = (f"INSERT INTO {table}_puf_sample {tuple(sample.columns)} VALUES "
+                         f"{tuple(['?' for i in range(len(sample.columns))])}")
+            sql_query = sql_query.replace("'", "")
+            cur.executemany(sql_query, rows)
+            cnxn.commit()
+    cnxn.close()
+
     # load csv files and insert data into database line by line
     # this is needed when working with the real data because the tables cannot be loaded into the memory at once
     # (parallelization is not possible with SQLite but will be applied on the real data)
-    for table in all_tables:
-        print(f"Writing table {table} to database.")
-        write_to_database(table)
+    # for table in all_tables:
+    #    print(f"Writing table {table} to database.")
+    #    write_to_database(table)
 
     print(f"The whole process took {datetime.now() - begin}.")
