@@ -209,7 +209,7 @@ if __name__ == '__main__':
         for table in all_tables:
             process_data((table, args, id_pool_mapping))
 
-    # get sample (Stichprobe von 3%) and write it into the database
+    # get sample (Stichprobe von 1%) and write it into the database
     if not os.path.isdir("output_csv_sample"):
         os.mkdir("output_csv_sample")
     print(int(len(id_pool_mapping["PSID"])*(args.sample*0.01)))
