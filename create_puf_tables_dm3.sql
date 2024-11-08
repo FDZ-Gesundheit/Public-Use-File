@@ -241,8 +241,3 @@ CREATE TABLE "VBJ{receiving_year}KHENTG_{schema}" (
     "TAGEOBE" VARCHAR2(3),
     "IMPFILE_ID" NUMBER NOT NULL
 );
-
-CREATE TABLE "VBJ{receiving_year}VS_{schema}" (
-    "ARBNR" NUMBER(9,0),
-    "PSID" RAW(32)
-);
