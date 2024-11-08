@@ -37,6 +37,17 @@ def get_constant_variables(data_model=2):
     return const if data_model == 2 else ['bjahr']
 
 
+def get_secondary_pools_dm3():
+    sec_pools = {"BSNRUEBPSEUDO": "BSNRPSEUDO",
+                 "LANRUEBPSEUDO": "LANRPSEUDO",
+                 "NBSNRPSEUDO": "BSNRPSEUDO",
+                 "TSVGBSNRPSEUDO": "BSNRPSEUDO",
+                 "BSNRVOPSEUDO": "BSNRPSEUDO",
+                 "EINWEISPSEUDO": "BSNRPSEUDO",
+                 "VERANLASSKHPSEUDO": "KHPSEUDO"}
+    return sec_pools
+
+
 def get_pseudo_variables(data_model=2):
     pseudos = pd.read_csv("data_types.csv").query('Type == "pseudo" and Datamodel == @data_model').Variable.to_list()
     return pseudos

@@ -7,7 +7,7 @@ import csv
 
 import pandas as pd
 from helpers import (connect_to_database, get_data_types, get_pseudo_variables, get_constant_variables, clean_data,
-                     get_pseudo_mapping)
+                     get_pseudo_mapping, get_secondary_pools_dm3)
 from functions import force_k, generate_pseudonym, shuffle_column
 import warnings
 from datetime import datetime
@@ -28,12 +28,23 @@ def get_prefix(table: str) -> str:
     return "V" if table == 'SA131' else "VBJ"
 
 
-def generate_pool_of_ids(col: str, table: str, data_model: int):
+def generate_pool_of_ids(col_name: str, table: str):
+    """
+    Generates a pool of new ids
+
+    Parameters:
+        col_name (str): The name of the column
+        table (str): The name of the current table (Satzart)
+
+    Returns:
+        id_pool (list): A list of new randomly generated pseudonyms
+    """
     prefix = get_prefix(table)
     table_name = f"{prefix}{args.year}{table}"
-    cur.execute(f"SELECT {col} from {table_name}")
+    cur.execute(f"SELECT {col_name} from {table_name}")
     data = pd.Series([entry[0] for entry in cur.fetchall()])
-    id_pool = [generate_pseudonym(len(str(value))) for value in set(data)]
+    id_pool = [generate_pseudonym(len(str(val))) for val in set(data)]
+
     return id_pool
 
 
@@ -49,7 +60,7 @@ def get_columns(table_name: str, args: argparse.Namespace) -> list:
         columns (list): A list of column names from the specified table
     """
 
-    connection, cursor = connect_to_database(data_model=dm)
+    connection, cursor = connect_to_database(data_model=args.dm)
     if args.dsn == "sqlite":
         info_query = f"PRAGMA table_info({table_name})"
         df_info = pd.read_sql_query(info_query, con=connection)
@@ -75,8 +86,8 @@ def process_data(arguments):
         (argparse.Namespace), including year and dsn connection
     """
 
-    table, args = arguments
-    dtypes = get_data_types(data_model=dm)
+    table, mapping, args = arguments
+    dtypes = get_data_types(data_model=args.dm)
     prefix = get_prefix(table)
     table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
@@ -85,33 +96,35 @@ def process_data(arguments):
     # this is needed due to memory issues
     # whole tables cannot be loaded and stored in a pandas dataframe
     for e, col in enumerate(columns):
-        connection, cursor = connect_to_database(data_model=dm)
-        if col in get_constant_variables(data_model=dm):
+        connection, cursor = connect_to_database(data_model=args.dm)
+        if col in get_constant_variables(data_model=args.dm):
             cursor.execute(f"SELECT {col} from {table_name} LIMIT 1")
             data = pd.Series([entry[0] for entry in cursor.fetchall()])
             cursor.execute(f"SELECT COUNT(*) from {table_name}")
             n = cursor.fetchall()[0][0]
-            data = pd.Series([data[0]]*n)
+            data = pd.Series([data[0]] * n)
             connection.close()
 
-        elif col in get_pseudo_variables(data_model=dm):
+        elif col in get_pseudo_variables(data_model=args.dm):
             cursor.execute(f"SELECT COUNT(*) from {table_name}")
             n = cursor.fetchall()[0][0]
             key = col[col.find("_") + 1:]
             if table in ['SA151', 'SA152', 'SA751', 'SA131', 'VERS']:
-                data = pd.Series(id_pool_mapping[key]
-                                 + [random.choice(id_pool_mapping[key]) for _ in
-                                    range(n - len(id_pool_mapping[key]))])
+                data = pd.Series(mapping[key]
+                                 + [random.choice(mapping[key]) for _ in
+                                    range(n - len(mapping[key]))])
             else:
-                data = pd.Series([random.choice(id_pool_mapping[key]) for _ in range(n)])
+                data = pd.Series([random.choice(mapping[key]) for _ in range(n)])
 
         else:  # get data
+            begin = datetime.now()
             cursor.execute(f"SELECT {col} from {table_name}")
             data = pd.Series([entry[0] for entry in cursor.fetchall()])
             connection.close()
             print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
+
+            # 0) clean column
             begin = datetime.now()
-            # iterate over each column to clean data types
             data_type = dtypes[col]
             data = clean_data(data, data_type)
             print(f"Cleaning {col} took {datetime.now() - begin}.")
@@ -126,7 +139,7 @@ def process_data(arguments):
             data = force_k(data, data_type, k=K)
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
-        # 4) write data into csv files
+        # 3) write data into csv files
         if e == 0:
             if not os.path.isdir("output_csv"):
                 os.mkdir("output_csv")
@@ -150,7 +163,7 @@ def process_data(arguments):
 
 def write_to_database(table: str):
     table_name = f"{get_prefix(table)}{args.year}{table}_puf"
-    cnxn, cur = connect_to_database(data_model=dm)
+    cnxn, cur = connect_to_database(data_model=args.dm)
     with (open(f"output_csv/{table}.csv", "r") as f):
         reader = csv.reader(f, delimiter=",")
         for i, row in enumerate(reader):
@@ -174,31 +187,34 @@ if __name__ == '__main__':
                                                                  "threads, default: False")
     args = parser.parse_args()
     # get data model
-    dm = 2 if args.year <= 2018 else 3
+    args.dm = 2 if args.year <= 2018 else 3
 
     begin = datetime.now()
     # connect to database:
-    cnxn, cur = connect_to_database(data_model=dm)
+    cnxn, cur = connect_to_database(data_model=args.dm)
 
     # get pool for all person ids:
-    if dm == 2:
-        psid_pool = generate_pool_of_ids("SA151_PSID", "SA151", data_model=dm)
-        vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151", data_model=dm)
+    if args.dm == 2:
+        psid_pool = generate_pool_of_ids("SA151_PSID", "SA151")
+        vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151")
         id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
     else:
-        pseudo_mapping = get_pseudo_mapping(data_model=dm)
+        pseudo_mapping = get_pseudo_mapping(data_model=args.dm)
         id_pool_mapping = {key: [] for key in pseudo_mapping.keys()}
         for col in id_pool_mapping.keys():
-            id_pool_mapping[col] = generate_pool_of_ids(col, pseudo_mapping[col], data_model=dm)
+            if col not in get_secondary_pools_dm3().keys():
+                id_pool_mapping[col] = generate_pool_of_ids(col, pseudo_mapping[col])
+        for key, value in get_secondary_pools_dm3().items():
+            id_pool_mapping[key] = id_pool_mapping[value]
 
     # drop all tables and create new ones - needed for testing purposes
-    if dm == 2:
+    if args.dm == 2:
         all_tables = ["SA151", "SA131", "SA152", "SA153", "SA551", "SA651", "SA751", "SA951", "SA451"]
         create_path = "create_puf_tables.sql"
     else:
         all_tables = ["VERS", "VERSQ", "VERSQDMP", "REZ", "AMBFALL", "KHFALL", "ZAHNFALL",
                       "AMBDIAG", "AMBOPS", "AMBLEIST", "KHFA", "KHENTG", "KHDIAG", "KHPROZ",
-                      "ZAHNLEIST", "ZAHNBEF", "EZD", "VS"]
+                      "ZAHNLEIST", "ZAHNBEF", "EZD"]
         create_path = "create_puf_tables_dm3.sql"
     drop_all = " ".join([f"DROP TABLE IF EXISTS {get_prefix(table)}{args.year}{table}_puf;" for table in all_tables])
     cur.executescript(drop_all)
@@ -215,10 +231,10 @@ if __name__ == '__main__':
         num_processes = min(len(all_tables), cpu_count())
         print(f"Multi-threading is used with {num_processes} processes.")
         with Pool(num_processes) as pool:
-            pool.map(process_data, [(table, args) for table in all_tables])
+            pool.map(process_data, [(table, id_pool_mapping, args) for table in all_tables])
     else:
         for table in all_tables:
-            process_data((table, args))
+            process_data((table, id_pool_mapping, args))
 
     # load csv files and insert data into database line by line
     # this is needed when working with the real data because the tables cannot be loaded into the memory at once
