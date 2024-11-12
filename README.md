@@ -1,6 +1,8 @@
-## Public Use File für Datenmodelle 1 und 2
+## Public Use File für Datenmodelle 1, 2 und 3
 
-> &#128161; Disclaimer: In diesem Repository befindet sich aktuell der Code zum Erstellen des Public Use Files für die Datenmodelle 1 und 2, inklusive generierten Mockdaten zum Testen des Codes, aber bisher NICHT das Public Use File selbst. Nachdem wir Feedback zur Methodik von der Community gesammelt haben, werden wir dieses veröffentlichen und Sie hierüber informieren. 
+> :tada: Update! Testdaten und Code für Datenmodell 3 wurden hinzugefügt. Wir bitten um Feedback! 
+
+> &#128161; Disclaimer: In diesem Repository befindet sich aktuell der Code zum Erstellen des Public Use Files für die Datenmodelle 1, 2 und 3, inklusive generierten Mockdaten zum Testen des Codes, aber bisher NICHT das Public Use File selbst. Nachdem wir Feedback zur Methodik von der Community gesammelt haben, werden wir dieses veröffentlichen und Sie hierüber informieren. 
 
 ### Ziel
 Das Public Use File (PUF) soll es ermöglichen, Auswertungsskripte zu entwickeln, die für die DaTraV Daten geeignet sind, sowie deren technische Möglichkeiten zu evaluieren.
@@ -55,7 +57,7 @@ Als weitere Schutzmaßnahme wird eine 1%-Stichprobe des vollständigen Datensatz
 
 ### Struktur der Daten
 
-Die Struktur der Daten entspricht dem Datenmodell 1 und 2 der DaTraV Daten des Forschungsdatenzentrums Gesundheit. Eine vollständige Beschreibung dieser Daten ist [hier verfügbar](https://fdz-gesundheit.github.io/datensatzbeschreibung_fdz_gesundheit/).
+Die Struktur der Daten entspricht den DaTraV Daten des Forschungsdatenzentrums Gesundheit. Eine vollständige Beschreibung dieser Daten ist [hier verfügbar](https://fdz-gesundheit.github.io/datensatzbeschreibung_fdz_gesundheit/).
 
 ### Struktur dieses Repositories
   
@@ -67,7 +69,8 @@ Dieses Repository enthält die folgenden Dateien:
   
 Zusätzlich gibt es die Skripte [pre_tests.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main//pre_tests.py) und [post_tests.py](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/post_tests.py). Diese enthalten Unittests, um die entwickelten Methoden zu evaluieren. 
   
-Um den Code auszuführen, stellen wir künstlich erzeugte Testdaten in einer SQLite Datenbank-Datei bereit. Die Testdaten werden mit dem Jupyter Notebook [generate_test_data.ipynb](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/generate_test_data.ipynb) erzeugt.
+Um den Code auszuführen, stellen wir künstlich erzeugte Testdaten in einer SQLite Datenbank-Datei bereit. Die Testdaten für Datenmodell 1+2 werden mit dem Jupyter Notebook [generate_test_data.ipynb](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main/generate_test_data.ipynb) erzeugt.
+Die Testdaten für Datenmodell 3 liegen bereits [hier](https://github.com/FDZ-Gesundheit/Public-Use-File/blob/main//dm3_testdaten.sqlite) als SQLite Datei vor.  
 Voraussetzung zum Testen ist daher die Installation von SQLite:  
 Es kann [hier](https://www.sqlite.org/download.html) heruntergeladen werden. Eine Anleitung für Windows gibt es [hier](https://dev.to/dendihandian/installing-sqlite3-in-windows-44eb).
 
