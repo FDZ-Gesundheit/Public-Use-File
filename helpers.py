@@ -13,8 +13,8 @@ def connect_to_database(dsn="sqlite", username="fdz", password="fdz", data_model
         except ConnectionError:
             return False
     elif dsn == "sqlite":
-        connect_string = f"test_data/fdz_generated_data_dm12.db" if data_model == 2 \
-            else "../../fdz-dm3-testdaten/scripts/SQLLoader/fdz_data_dm3.db"
+        connect_string = "dm3_testdaten.sqlite" if data_model == 3 \
+            else f"test_data/fdz_generated_data_dm12.db"
         try:
             cnxn = sqlite3.connect(connect_string)
             cursor = cnxn.cursor()
@@ -34,7 +34,7 @@ def get_constant_variables(data_model=2):
              'SA751_BERICHTSJAHR', 'SA999_BERICHTSJAHR', 'SA131_BERICHTSJAHR', 'SA151_SATZART', 'SA152_SATZART',
              'SA153_SATZART', 'SA451_SATZART', 'SA551_SATZART', 'SA651_SATZART', 'SA751_SATZART', 'SA999_SATZART',
              'SA131_SATZART']
-    return const if data_model == 2 else ['bjahr']
+    return const if data_model != 3 else ['BJAHR', 'DATENMODELL']
 
 
 def get_secondary_pools_dm3():
@@ -70,7 +70,7 @@ def clean_data(column_data, dt):
     if dt == "category":
         column_data = column_data.astype('category')
     elif dt == "date":
-        column_data = pd.to_datetime(column_data, errors='coerce').dt.date
+        column_data = pd.to_datetime(column_data, errors='coerce', format='%Y%m%d').dt.date
         column_data = column_data.apply(lambda x: x if not pd.isnull(x) else None)
     elif dt == "year":
         column_data = pd.to_datetime(column_data, format='%Y').dt.year

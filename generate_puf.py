@@ -14,32 +14,34 @@ from datetime import datetime
 from multiprocessing import Pool, cpu_count
 
 warnings.simplefilter(action='ignore', category=UserWarning)
-K = 5
+K = 3
 
 
-def get_prefix(table: str) -> str:
+def get_prefix(table: str, data_model: int) -> str:
     """
     Returns the correct table prefix for the specified "Satzart" as available in the database
     Parameters:
         table (str): The name of the current table (Satzart)
+        data_model (int): The data model of the current table
     Returns:
         prefix (str): Prefix of the table
     """
-    return "V" if table == 'SA131' else "VBJ"
+    return "BJ" if data_model == 3 else "V" if table == 'SA131' else "VBJ"
 
 
-def generate_pool_of_ids(col_name: str, table: str):
+def generate_pool_of_ids(col_name: str, table: str, data_model: int) -> list:
     """
     Generates a pool of new ids
 
     Parameters:
         col_name (str): The name of the column
         table (str): The name of the current table (Satzart)
+        data_model: The data model of the current table
 
     Returns:
         id_pool (list): A list of new randomly generated pseudonyms
     """
-    prefix = get_prefix(table)
+    prefix = get_prefix(table, data_model=data_model)
     table_name = f"{prefix}{args.year}{table}"
     cur.execute(f"SELECT {col_name} from {table_name}")
     data = pd.Series([entry[0] for entry in cur.fetchall()])
@@ -88,7 +90,7 @@ def process_data(arguments):
 
     table, mapping, args = arguments
     dtypes = get_data_types(data_model=args.dm)
-    prefix = get_prefix(table)
+    prefix = get_prefix(table, args.dm)
     table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
 
@@ -162,7 +164,13 @@ def process_data(arguments):
 
 
 def write_to_database(table: str):
-    table_name = f"{get_prefix(table)}{args.year}{table}_puf"
+    """
+    Loads data from CSV files and writes them to the SQLite database.
+
+    Parameters:
+        table (str): The name of the table to process (str).
+    """
+    table_name = f"{get_prefix(table, args.dm)}{args.year}{table}_puf"
     cnxn, cur = connect_to_database(data_model=args.dm)
     with (open(f"output_csv/{table}.csv", "r") as f):
         reader = csv.reader(f, delimiter=",")
@@ -195,15 +203,15 @@ if __name__ == '__main__':
 
     # get pool for all person ids:
     if args.dm == 2:
-        psid_pool = generate_pool_of_ids("SA151_PSID", "SA151")
-        vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151")
+        psid_pool = generate_pool_of_ids("SA151_PSID", "SA151", args.dm)
+        vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151", args.dm)
         id_pool_mapping = {"PSID": psid_pool, "VSID": vsid_pool}
     else:
         pseudo_mapping = get_pseudo_mapping(data_model=args.dm)
         id_pool_mapping = {key: [] for key in pseudo_mapping.keys()}
         for col in id_pool_mapping.keys():
             if col not in get_secondary_pools_dm3().keys():
-                id_pool_mapping[col] = generate_pool_of_ids(col, pseudo_mapping[col])
+                id_pool_mapping[col] = generate_pool_of_ids(col, pseudo_mapping[col], args.dm)
         for key, value in get_secondary_pools_dm3().items():
             id_pool_mapping[key] = id_pool_mapping[value]
 
@@ -216,12 +224,16 @@ if __name__ == '__main__':
                       "AMBDIAG", "AMBOPS", "AMBLEIST", "KHFA", "KHENTG", "KHDIAG", "KHPROZ",
                       "ZAHNLEIST", "ZAHNBEF", "EZD"]
         create_path = "create_puf_tables_dm3.sql"
-    drop_all = " ".join([f"DROP TABLE IF EXISTS {get_prefix(table)}{args.year}{table}_puf;" for table in all_tables])
+    if args.dm == 3:
+        drop_all = " ".join([f"DROP TABLE IF EXISTS BJ{args.year}{table}_puf;" for table in all_tables])
+    else:
+        drop_all = " ".join(
+            [f"DROP TABLE IF EXISTS {get_prefix(table, args.dm)}{args.year}{table}_puf;" for table in all_tables])
     cur.executescript(drop_all)
 
     # generate new tables
     with open(create_path, "r") as f_tables:
-        sql_create_tables = f_tables.read().format(prefix="VBJ", receiving_year=args.year,
+        sql_create_tables = f_tables.read().format(prefix="BJ" if args.dm == 3 else "VBJ", receiving_year=args.year,
                                                    clearing_year=int(args.year) - 1,
                                                    schema="puf")
     cur.executescript(sql_create_tables)
@@ -238,7 +250,6 @@ if __name__ == '__main__':
 
     # load csv files and insert data into database line by line
     # this is needed when working with the real data because the tables cannot be loaded into the memory at once
-    # (parallelization is not possible with SQLite but will be applied on the real data)
     for table in all_tables:
         print(f"Writing table {table} to database.")
         write_to_database(table)
