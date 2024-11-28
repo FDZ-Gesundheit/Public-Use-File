@@ -17,7 +17,9 @@ warnings.simplefilter(action='ignore', category=UserWarning)
 K = 3
 
 
+
 def get_prefix(table: str, data_model: int) -> str:
+
     """
     Returns the correct table prefix for the specified "Satzart" as available in the database
     Parameters:
@@ -91,6 +93,7 @@ def process_data(arguments):
     table, mapping, args = arguments
     dtypes = get_data_types(data_model=args.dm)
     prefix = get_prefix(table, args.dm)
+
     table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
 
@@ -142,6 +145,7 @@ def process_data(arguments):
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
         # 3) write data into csv files
+
         if e == 0:
             if not os.path.isdir("output_csv"):
                 os.mkdir("output_csv")
@@ -190,9 +194,10 @@ if __name__ == '__main__':
     parser.add_argument("--dsn", default="sqlite", help="Data source name for ODBC data source, default: sqlite")
     parser.add_argument("--username", default="fdz", help="Username to connect to database, default: fdz")
     parser.add_argument("--password", default="fdz", help="Password to connect to database, default: fdz")
-    parser.add_argument("--year", default=2019, help="Year for data creation, default: 2016")
+    parser.add_argument("--year", default=2016, type=integer, help="Year for data creation, default: 2016")
     parser.add_argument("--multi_threading", default=False, help="Whether to parallelize the code in multiple "
                                                                  "threads, default: False")
+
     args = parser.parse_args()
     # get data model
     args.dm = 2 if args.year <= 2018 else 3
@@ -202,6 +207,7 @@ if __name__ == '__main__':
     cnxn, cur = connect_to_database(data_model=args.dm)
 
     # get pool for all person ids:
+
     if args.dm == 2:
         psid_pool = generate_pool_of_ids("SA151_PSID", "SA151", args.dm)
         vsid_pool = generate_pool_of_ids("SA151_VSID", "SA151", args.dm)
@@ -214,6 +220,7 @@ if __name__ == '__main__':
                 id_pool_mapping[col] = generate_pool_of_ids(col, pseudo_mapping[col], args.dm)
         for key, value in get_secondary_pools_dm3().items():
             id_pool_mapping[key] = id_pool_mapping[value]
+
 
     # drop all tables and create new ones - needed for testing purposes
     if args.dm == 2:
@@ -247,6 +254,7 @@ if __name__ == '__main__':
     else:
         for table in all_tables:
             process_data((table, id_pool_mapping, args))
+
 
     # load csv files and insert data into database line by line
     # this is needed when working with the real data because the tables cannot be loaded into the memory at once
