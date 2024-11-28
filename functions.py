@@ -80,25 +80,25 @@ def force_k(values: pd.Series, value_type: str, k: int):
             numbers_subset = df[df['values'].isin(numbers_to_change)]
             cur_number = numbers_subset['values'].iloc[0]
             nearest_number = find_nearest_number(df['values'].dropna(), cur_number)
-            df.loc[df['values'] == cur_number] = nearest_number
-        if value_type == "date":
-            output = pd.Series([int(str(date).replace("-", "")) for date in pd.Series(df['values'].to_list())])
-            return output
-        else:
-            return pd.Series(df['values'].to_list())
+            check_nan = True if pd.isnull(cur_number) else False
+            if check_nan:
+                df.fillna(nearest_number, inplace=True)
+            else:
+                df.loc[df['values'] == cur_number] = nearest_number
+        return pd.Series(df['values'].to_list())
     elif value_type == 'string':
         while not check_k_single_variable(values, k):
             values = [value[:-1] for value in values]
         return pd.Series(values)
-    elif value_type == 'category':
-        k_not_fulfilled = df.groupby('values', dropna=False).size().loc[lambda x: x < k]
+    elif value_type == 'category' or value_type == 'alphanumeric':
+        k_not_fulfilled = df['values'].value_counts(dropna=False).loc[lambda x: x < k]
         if not k_not_fulfilled.empty:
             if len(k_not_fulfilled) == 1 or k > sum(k_not_fulfilled):
                 # if we do have only one category that does not fulfill k,
                 # or several categories where their sum does not fulfill k either,
                 # we merge these values with the smallest valid category
                 # and call it 'Other'
-                k_fulfilled = df.groupby('values', dropna=False).size().loc[lambda x: x >= k]
+                k_fulfilled = df['values'].value_counts(dropna=False).loc[lambda x: x >= k]
                 smallest_valid_category = k_fulfilled.index.tolist()[-1]
                 df['Other'] = df['values'].apply(lambda x: x if x in k_fulfilled
                                                  and x is not smallest_valid_category else 'Other')
@@ -115,12 +115,15 @@ def force_k(values: pd.Series, value_type: str, k: int):
 def find_nearest_number(values: pd.Series, single_value):
     values = [val for val in values if val != single_value]
     if not values:
-        return single_value
-    return min(values, key=lambda x: abs(x - single_value))
+        return None
+    elif single_value is None:
+        return min(values)
+    else:
+        return min(values, key=lambda x: abs(x - single_value))
 
 
 def generate_pseudonym(variable: string, length=19):
-    if 'VSID' in variable:
+    if variable in ['ARBNR', 'VSID', 'PSID', 'VERANLASSSTELLEPSEUDO']:
         return ''.join(random.choices(POSSIBLE_CHARACTERS, k=length))
     else:
         return ''.join(random.choices(string.digits, k=length))
