@@ -97,6 +97,11 @@ def process_data(arguments):
     table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
 
+    # create output directory, if it doesn't exist
+    out_dir_path_name: str = "output_csv"
+    out_dir: Path = Path(out_dir_path_name)
+    out_dir.mkdir(exist_ok=True)
+
     # get single column and process it
     # this is needed due to memory issues
     # whole tables cannot be loaded and stored in a pandas dataframe
@@ -145,10 +150,6 @@ def process_data(arguments):
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
         # 3) write data into csv files
-
-        out_dir_path_name: str = "output_csv"
-        out_dir: Path = Path(out_dir_path_name)
-        out_dir.mkdir(exist_ok=True)
         
         csv_file_out: Path = out_dir / f"{table}_{e}.csv"
         csv_file_in: Path = out_dir / f"{table}_{e-1}.csv"
@@ -159,7 +160,6 @@ def process_data(arguments):
                 writer = csv.writer(f, delimiter=",")
                 writer.writerow([col])
                 for data_row in data:
-                    print([data_row])
                     writer.writerow([data_row])
         else:
             with csv_file_in.open("r") as f_in, csv_file_out.open("w", newline="") as f_out:
@@ -168,12 +168,15 @@ def process_data(arguments):
                 writer.writerow(next(csv_reader) + [col])
                 for csv_row, data_row in zip(csv_reader, data):
                     csv_row.append(data_row)
-                    print(f"{csv_row}")
                     writer.writerow(csv_row)
             csv_file_in.unlink(missing_ok=True)
+    
+    # rename fails on windows systems if the target file exists
     if csv_final.exists():
         csv_final.unlink()
+    
     csv_file_out.rename(csv_final)
+    
     return None
 
 
