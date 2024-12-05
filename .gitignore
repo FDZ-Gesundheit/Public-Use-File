@@ -240,10 +240,5 @@ fabric.properties
 .vscode/*
 
 # output and testdata
-/output_csv
-output_csv/*
-
-/test_data/csv
-/test_data/fdz_generated_data_dm12.db
-test_data/csv
-test_data/fdz_generated_data_dm12.db
+output_csv/
+test_data/
