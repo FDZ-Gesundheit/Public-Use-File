@@ -49,7 +49,7 @@ Besonders wichtig bei diesem Schritt ist es, die Struktur der Daten nicht zu ver
 
 #### IDs ersetzen
 
-Im Rahmen der Datenlieferung nach DaTraV werden jahresbezogene und jahresübergreifende Pseudonyme erzeugt. Diese Pseudonyme werden verwendet, um über Tabellen hinweg den Bezug zu einer natürlichen Person herstellen zu können. Um die Pseudonyme zu schützen, wird für das Public Use File jedes Pseudonym durch ein neues, im gleichen Format zufällig erstelltes Pseudonym ersetzt. Die Zuordnung wird nicht gespeichert und kann nicht revidiert werden. Es wird keine Kollisionsprüfung bei der Neuerstellung der Pseudonyme vorgenommen. Zwei Pseudonyme im Original können somit zufällig das gleiche neue Pseudonym erhalten. Es wird nicht nachgehalten, ob und wie oft dieser Fall eingetreten ist.
+Im Rahmen der Datenlieferung nach DaTraV werden jahresbezogene und jahresübergreifende Pseudonyme erzeugt. Diese Pseudonyme werden verwendet, um über Tabellen hinweg den Bezug zu einer natürlichen Person herstellen zu können. Um die Pseudonyme zu schützen, wird für das Public Use File für jede identifizierende Variable ein Pool von neuen Identifiern als simple random sample mit Zurücklegen ohne Bezug zum Originaldatensatz erzeugt. Die Größe des Pool entspricht näherungsweise der Anzahl an unterschiedlichen Pseudonymen im Originaldatensatz. Wann immer im Public Use File ein Identifier benötigt wird, wird dieser als simple random sample mit Zurücklegen aus dem jeweiligen Pool gezogen. Das bedeutet, dass wir hier eine Gleichverteilung der neu generierten Pseudonyme erzeugen und somit keine strukturellen Rückschlüsse auf Leistungserbringer mehr möglich sind. Das ist vor allem für Datenmodell 3 von Relevanz.  
 
 #### Stichprobe
 
