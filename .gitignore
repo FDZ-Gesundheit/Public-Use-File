@@ -232,9 +232,18 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+# R related files
+.Rproj.user
 *.Rmd
+
+# exclude Microsoft vs code configration files
+.vscode/*
+
+# output and testdata
 /output_csv
+output_csv/*
 
 /test_data/csv
 /test_data/fdz_generated_data_dm12.db
-.Rproj.user
+test_data/csv
+test_data/fdz_generated_data_dm12.db

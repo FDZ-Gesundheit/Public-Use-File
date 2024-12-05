@@ -1,7 +1,7 @@
-import os
 import random
 import sys
 import argparse
+from pathlib import Path
 
 import csv
 
@@ -97,6 +97,11 @@ def process_data(arguments):
     table_name = f"{prefix}{args.year}{table}"
     columns = get_columns(table_name, args)
 
+    # create output directory, if it doesn't exist
+    out_dir_path_name: str = "output_csv"
+    out_dir: Path = Path(out_dir_path_name)
+    out_dir.mkdir(exist_ok=True)
+
     # get single column and process it
     # this is needed due to memory issues
     # whole tables cannot be loaded and stored in a pandas dataframe
@@ -145,26 +150,34 @@ def process_data(arguments):
             print(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
         # 3) write data into csv files
+        
+        csv_file_out: Path = out_dir / f"{table}_{e}.csv"
+        csv_file_in: Path = out_dir / f"{table}_{e-1}.csv"
+        csv_final: Path = out_dir / f"{table}.csv"
 
         if e == 0:
-            if not os.path.isdir("output_csv"):
-                os.mkdir("output_csv")
-            with open(f"output_csv/{table}_{e}.csv", "w", newline="") as f:
+            with csv_file_out.open("w", newline="") as f:
                 writer = csv.writer(f, delimiter=",")
                 writer.writerow([col])
-                for value in data:
-                    writer.writerow([value])
+                for data_row in data:
+                    writer.writerow([data_row])
         else:
-            with open(f"output_csv/{table}_{e - 1}.csv", "r") as f_in, open(f"output_csv/{table}_{e}.csv",
-                                                                            "w") as f_out:
-                csv_reader = csv.reader(f_in, delimiter=",")
-                writer = csv.writer(f_out, delimiter=",")
+            with csv_file_in.open("r") as f_in, csv_file_out.open("w", newline="") as f_out:
+                csv_reader: csv.reader = csv.reader(f_in, delimiter=",")
+                writer: csv.writer = csv.writer(f_out, delimiter=",")
                 writer.writerow(next(csv_reader) + [col])
-                for i, (row, value) in enumerate(zip(csv_reader, data)):
-                    writer.writerow(row + [value])
-            os.remove(f"output_csv/{table}_{e - 1}.csv")
-    os.rename(f"output_csv/{table}_{e}.csv", f"output_csv/{table}.csv")
-    return
+                for csv_row, data_row in zip(csv_reader, data):
+                    csv_row.append(data_row)
+                    writer.writerow(csv_row)
+            csv_file_in.unlink(missing_ok=True)
+    
+    # rename fails on windows systems if the target file exists
+    if csv_final.exists():
+        csv_final.unlink()
+    
+    csv_file_out.rename(csv_final)
+    
+    return None
 
 
 def write_to_database(table: str):
@@ -194,7 +207,7 @@ if __name__ == '__main__':
     parser.add_argument("--dsn", default="sqlite", help="Data source name for ODBC data source, default: sqlite")
     parser.add_argument("--username", default="fdz", help="Username to connect to database, default: fdz")
     parser.add_argument("--password", default="fdz", help="Password to connect to database, default: fdz")
-    parser.add_argument("--year", default=2016, type=integer, help="Year for data creation, default: 2016")
+    parser.add_argument("--year", default=2016, type=int, help="Year for data creation, default: 2016")
     parser.add_argument("--multi_threading", default=False, help="Whether to parallelize the code in multiple "
                                                                  "threads, default: False")
 
