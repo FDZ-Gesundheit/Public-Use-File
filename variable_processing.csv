@@ -1,88 +1,298 @@
-Variablenname,Sprechender Name,Sampling Verfahren,Zusatzinformation
-SA151_SATZART,Satzart,,Konstant
-SA151_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA151_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA151_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA151_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA151_KV_NR_KENNZEICHEN,Vorliegen einer Bundeseinheitlichen KV Nummer?,Simple Random Sample ohne Replacement,
-SA151_GEBURTSJAHR,Geburtsjahr,Simple Random Sample ohne Replacement,
-SA151_GESCHLECHT,Geschlecht,Simple Random Sample ohne Replacement,
-SA151_VERSICHERTENTAGE,Anzahl an Versichertentagen,Simple Random Sample ohne Replacement,
-SA151_VERSTORBEN,Verstorben ja/nein,Simple Random Sample ohne Replacement,
-SA151_VERSICHERTENTAGEKG,Anzahl an Versichertentagen mit Krankengeld,Simple Random Sample ohne Replacement,
-SA152_SATZART,Satzart,,Konstant
-SA152_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA152_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA152_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA152_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA152_KV_NR_KENNZEICHEN,Vorliegen einer Bundeseinheitlichen KV Nummer?,Simple Random Sample ohne Replacement,
-SA152_ERWERBSMINDERUNGS_VT,Anzahl an Versichertentagen mit Erwerbsminderung,Simple Random Sample ohne Replacement,
-SA152_VERSICHERTENTAGEAUSLAND,Anzahl an Versichertentagen im Ausland,Simple Random Sample ohne Replacement,
-SA152_VERSICHERTENTAGE13II,Anzahl an Versichertentagen nach §13 SGB II,Simple Random Sample ohne Replacement,
-SA152_VERSICHERTENTAGE53IV,Anzahl an Versichertentagen nach §53 SGB IV,Simple Random Sample ohne Replacement,
-SA153_SATZART,Satzart,,Konstant
-SA153_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA153_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA153_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA153_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA153_KV_NR_KENNZEICHEN,Vorliegen einer Bundeseinheitlichen KV Nummer?,Simple Random Sample ohne Replacement,
-SA153_EXTRABLUTREINIGUNG,Extrakorporale Blutreinigung wurde durchgeführt ja/nein,Simple Random Sample ohne Replacement,
-SA451_SATZART,Satzart,,Konstant
-SA451_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA451_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA451_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA451_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA451_VERORDNUNGSDATUM,Verordnungsdatum der dazugehörigen Pharmazentralnummer,Simple Random Sample ohne Replacement,
-SA451_PHARMAZENTRALNUMMER,Pharmazentralnummer,"Transformation in Wide, dann Simple Random Sample ohne Replacement",
-SA451_ANZAHLEINHEITENFAKTOR,Einheitenfaktor der Pharmazentralnummer.,Simple Random Sample ohne Replacement,Entspricht in etwa der Packungsgröße. Ist eindeutig für eine PZN
-SA551_SATZART,Satzart,,Konstant
-SA551_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA551_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA551_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA551_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA551_ENTLASSUNGSMONAT,Entlassungmonat aus dem Krankenhaus JJJJMM,Simple Random Sample ohne Replacement,
-SA551_FALLZAEHLER,Laufender Zähler für die Anzahl an Krankenhaus aufenthalten innerhalb eines Jahres,Simple Random Sample ohne Replacement,
-SA551_DIAGNOSE,Diagnose Code nach ICD mit Zusatz,"Transformation in Wide, dann Simple Random Sample ohne Replacement",
-SA551_ICD_CODE,Diagnose Code nach ICD ohne Zusatz,Generiert aus SA551_DIAGNOSE,Wird aus SA551_DIAGNOSE generiert
-SA551_ICD_ZUSATZ,ICD Code Zusatz,Generiert aus SA551_DIAGNOSE,Wird aus SA551_DIAGNOSE generiert
-SA551_LOKALISATION,Lokalisation der Diagnose (links/rechts/beide),Simple Random Sample ohne Replacement,
-SA551_ARTDIAGNOSE,Art der Diagnose (),Simple Random Sample ohne Replacement,
-SA551_ARTBEHANDLUNG,Art der Behandlung,Simple Random Sample ohne Replacement,
-SA651_SATZART,Satzart,,Konstant
-SA651_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA651_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA651_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA651_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA651_LEISTUNGSQUARTAL,"Quartal in dem Leistungen für die Diagnose abgerechnet werden (1, 2, 3, 4)",Simple Random Sample ohne Replacement,
-SA651_DIAGNOSE,Diagnose Code nach ICD mit Zusatz,"Transformation in Wide, dann Simple Random Sample ohne Replacement",
-SA651_ICD_CODE,Diagnose Code nach ICD ohne Zusatz,Generiert aus SA651_DIAGNOSE,Wird aus SA651_DIAGNOSE generiert
-SA651_ICD_ZUSATZ,ICD Code Zusatz,Generiert aus SA651_DIAGNOSE,Wird aus SA651_DIAGNOSE generiert
-SA651_QUALIFIZIERUNG,Qualifizierung der Diagnose: Verdacht auf; Gesichert; Auschluss; Zustand nach,Simple Random Sample ohne Replacement,
-SA651_LOKALISATION,Lokalisation der Diagnose (links/rechts/beide),Simple Random Sample ohne Replacement,
-SA651_ABRECHNUNGSWEG,Abrechnungsweg der Behandlung (),Simple Random Sample ohne Replacement,
-SA751_SATZART,Satzart,,Konstant
-SA751_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA751_BERICHTSJAHR,Berichtsjahr,,Konstant
-SA751_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA751_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA751_AERZTE,Leistungsausgaben in € für Ärzte,Simple Random Sample ohne Replacement,
-SA751_ZAHNAERZTE,Leistungsausgaben in € für Zahnärzte,Simple Random Sample ohne Replacement,
-SA751_APOTHEKEN,Leistungsausgaben in € für Apotheken,Simple Random Sample ohne Replacement,
-SA751_KRANKENHAEUSER,Leistungsausgaben in € für Krankenhäuser,Simple Random Sample ohne Replacement,
-SA751_SONSTIGELA,Leistungsausgaben in € für Sonstige,Simple Random Sample ohne Replacement,
-SA751_SACHKOSTENDIALYSE,Leistungsausgaben in € für Sachenkosten für die Diaglyse,Simple Random Sample ohne Replacement,
-SA751_KRANKENGELD,Leistungsausgaben in € für Krankengeld,Simple Random Sample ohne Replacement,
-SA951_AUSGLEICHSJAHR,Ausgleichjahr,,Konstant
-SA951_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,Wird ersetzt
-SA951_PSID,Periodenübergreifendes Pseudonym (PüP),,Wird ersetzt
-SA951_BETRIEBSNUMMER,Betriebsnummer der Krankenkasse,Simple Random Sample ohne Replacement,
-SA131_SATZART,Satzart,,"Konstant, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
-SA131_SCHLUESSELJAHR,Ausgleichjahr,,"Konstant, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
-SA131_BERICHTSJAHR,Berichtsjahr,,"Konstant, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
-SA131_PSID2,Innerjähriges (Krankenkassenbezogenes) Pseudonym,,"Wird ersetzt, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
-SA131_PSID,Periodenübergreifendes Pseudonym (PüP),,"Wird ersetzt, Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden"
-SA131_PLZ,Postleitzahl,Simple Random Sample ohne Replacement,Nur ab der Zwischenlieferung BJ2016 bis BJ2018 zum Schlüsseljahr jeweils 2 Jahre vorher vorhanden
-SA999_SATZART,Satzart,Simple Random Sample ohne Replacement,"Konstant, Nur in den Jahren 2009 und 2010 vorhanden"
-SA999_AUSGLEICHSJAHR,Ausgleichjahr,Simple Random Sample ohne Replacement,"Konstant, Nur in den Jahren 2009 und 2010 vorhanden"
-SA999_BERICHTSJAHR,Berichtsjahr,Simple Random Sample ohne Replacement,"Konstant, Nur in den Jahren 2009 und 2010 vorhanden"
-SA999_GS,Allgemeiner Gemeindeschlüssel,Simple Random Sample ohne Replacement,Nur in den Jahren 2009 und 2010 vorhanden
+Datenmodell,Tabellenname,Datenfeldname,Datenfeldbezeichnung,PUF Methode,Pool
+DM1+2,SA151,SA151_SATZART,Satzart,Nichts,
+DM1+2,SA151,SA151_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA151,SA151_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA151,SA151_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA151,SA151_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA151,SA151_KV_NR_KENNZEICHEN,Krankenversicherungsnummer (KV),Shuffle,
+DM1+2,SA151,SA151_GEBURTSJAHR,Geburtsjahr,Shuffle,
+DM1+2,SA151,SA151_GESCHLECHT,Geschlecht,Shuffle,
+DM1+2,SA151,SA151_VERSICHERTENTAGE,Versichertentage,Shuffle,
+DM1+2,SA151,SA151_VERSTORBEN,Vitalstatus,Shuffle,
+DM1+2,SA151,SA151_VERSICHERTENTAGEKG,Versichertentage mit Krankengeld,Shuffle,
+DM1+2,SA152,SA152_SATZART,Satzart,Nichts,
+DM1+2,SA152,SA152_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA152,SA152_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA152,SA152_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA152,SA152_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA152,SA152_KV_NR_KENNZEICHEN,Krankenversicherungsnummer (KV),Shuffle,
+DM1+2,SA152,SA152_ERWERBSMINDERUNGS_VT,Erwerbsminderungsversichertentage,Shuffle,
+DM1+2,SA152,SA152_VERSICHERTENTAGEAUSLAND,Versichertentage Ausland,Shuffle,
+DM1+2,SA152,SA152_VERSICHERTENTAGE13II,Versichertentage mit Kostenerstattung,Shuffle,
+DM1+2,SA152,SA152_VERSICHERTENTAGE53IV,Versichertentage mit Kostenerstattung,Shuffle,
+DM1+2,SA153,SA153_SATZART,Satzart,Nichts,
+DM1+2,SA153,SA153_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA153,SA153_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA153,SA153_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA153,SA153_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA153,SA153_KV_NR_KENNZEICHEN,Krankenversicherungsnummer (KV),Shuffle,
+DM1+2,SA153,SA153_EXTRABLUTREINIGUNG,Extrakorporale Blutreinigung,Shuffle,
+DM1+2,SA451,SA451_SATZART,Satzart,Nichts,
+DM1+2,SA451,SA451_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA451,SA451_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA451,SA451_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA451,SA451_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA451,SA451_VERORDNUNGSDATUM,Verordnungsdatum,Shuffle,
+DM1+2,SA451,SA451_PHARMAZENTRALNUMMER,Pharmazentralnummer,Shuffle,
+DM1+2,SA451,SA451_ANZAHLEINHEITENFAKTOR,Anzahleinheitenfaktor,Shuffle,
+DM1+2,SA551,SA551_SATZART,Satzart,Nichts,
+DM1+2,SA551,SA551_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA551,SA551_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA551,SA551_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA551,SA551_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA551,SA551_ENTLASSUNGSMONAT,Entlassungsmonat,Shuffle,
+DM1+2,SA551,SA551_FALLZAEHLER,Fallzähler,Shuffle,
+DM1+2,SA551,SA551_ICD_CODE,stationäre Diagnose,Shuffle,
+DM1+2,SA551,SA551_ICD_ZUSATZ,stationäre Diagnose Sonderzeichen,Shuffle,
+DM1+2,SA551,SA551_LOKALISATION,Lokalisation,Shuffle,
+DM1+2,SA551,SA551_ARTDIAGNOSE,Art der Diagnose,Shuffle,
+DM1+2,SA551,SA551_ARTBEHANDLUNG,Art der Behandlung,Shuffle,
+DM1+2,SA651,SA651_SATZART,Satzart,Nichts,
+DM1+2,SA651,SA651_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA651,SA651_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA651,SA651_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA651,SA651_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA651,SA651_LEISTUNGSQUARTAL,Leistungsquartal,Shuffle,
+DM1+2,SA651,SA651_ICD_CODE,ambulante Diagnose,Shuffle,
+DM1+2,SA651,SA651_ICD_ZUSATZ,ambulante Diagnose Sonderzeichen,Shuffle,
+DM1+2,SA651,SA651_QUALIFIZIERUNG,Qualifizierung,Shuffle,
+DM1+2,SA651,SA651_LOKALISATION,Lokalisation,Shuffle,
+DM1+2,SA651,SA651_ABRECHNUNGSWEG,Abrechnungsweg,Shuffle,
+DM1+2,SA751,SA751_SATZART,Satzart,Nichts,
+DM1+2,SA751,SA751_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA751,SA751_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA751,SA751_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA751,SA751_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA751,SA751_AERZTE,Jährliche Leistungsausgaben Ärzte,Shuffle,
+DM1+2,SA751,SA751_ZAHNAERZTE,Jährliche Leistungsausgaben Zahnärzte,Shuffle,
+DM1+2,SA751,SA751_APOTHEKEN,Jährliche Leistungsausgaben Apotheken,Shuffle,
+DM1+2,SA751,SA751_KRANKENHAEUSER,Jährliche Leistungsausgaben Krankhäuser,Shuffle,
+DM1+2,SA751,SA751_SONSTIGELA,Sonstige jährliche Leistungsausgaben (LINK),Shuffle,
+DM1+2,SA751,SA751_SACHKOSTENDIALYSE,Jährliche Kosten Sachkostendialyse,Shuffle,
+DM1+2,SA751,SA751_KRANKENGELD,Jährliches Krankengeld,Shuffle,
+DM1+2,SA951,SA951_AUSGLEICHSJAHR,Ausgleichsjahr,Nichts,
+DM1+2,SA951,SA951_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA951,SA951_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA951,SA951_BETRIEBSNUMMER,Betriebsnummer,Shuffle,
+DM1+2,SA131,SA131_SATZART,Satzart,Nichts,
+DM1+2,SA131,SA131_SCHLUESSELJAHR,Schlüsseljahr,Nichts,
+DM1+2,SA131,SA131_BERICHTSJAHR,Berichtsjahr,Nichts,
+DM1+2,SA131,SA131_PSID,Überjähriges Pseudonym,Pool,PSID
+DM1+2,SA131,SA131_VSID,Einjähriges Pseudonym,Pool,VSID
+DM1+2,SA131,SA131_PLZ,Postleitzahl,Shuffle,
+DM3,VERS,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,VERS,BNR,Betriebsnummer,Pool,BNR
+DM3,VERS,PSID,Periodenübergreifendes Pseudonym,Pool,VSID
+DM3,VERS,DATENMODELL,,Nichts,
+DM3,VERS,BJAHR,Berichtsjahr,Nichts,
+DM3,VERS,GEBJAHR,Geburtsjahr,Shuffle,
+DM3,VERS,PLZ,Postleitzahl,Shuffle,
+DM3,VERS,VITALSTATUS,Vitalstatus,Shuffle,
+DM3,VERS,STERBEDAT,Datum des Sterbetages,Shuffle,
+DM3,VERSQ,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,VERSQ,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,VERSQ,DATENMODELL,,Nichts,
+DM3,VERSQ,BJAHR,Berichtsjahr,Nichts,
+DM3,VERSQ,BNR,Betriebsnummer,Pool,BNR
+DM3,VERSQ,VERSQ,Versichertenquartal des Berichtsjahres,Shuffle,
+DM3,VERSQ,GESCHLECHT,Geschlecht,Shuffle,
+DM3,VERSQ,VERSTAGE,Anzahl Versichertentage,Shuffle,
+DM3,VERSQ,VERSTAGEAUSL,Anzahl Versichertentage mit Wohnsitz im Ausland,Shuffle,
+DM3,VERSQ,VERSSTATUS,Versichertenstatus gemäß KM 1,Shuffle,
+DM3,VERSQ,VERSTAGEKG,Anzahl Versichertentage mit Krankengeldbezug,Shuffle,
+DM3,VERSQ,VERSTAGEKOSTERSTWAHLT,Anzahl Versichertentage mit Kostenerstattung oder Wahltarif,Shuffle,
+DM3,VERSQDMP,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,VERSQDMP,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,VERSQDMP,DATENMODELL,,Nichts,
+DM3,VERSQDMP,BJAHR,Berichtsjahr,Nichts,
+DM3,VERSQDMP,VERSQ,Versichertenquartal des Berichtsjahres,Shuffle,
+DM3,VERSQDMP,DMPPROG,Programmkennziffer des Disease-Management-Programms,Shuffle,
+DM3,VERSQDMP,DMPTAGE,Anzahl DMP-Tage,Shuffle,
+DM3,AMBFALL,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,AMBFALL,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,AMBFALL,ABRQ,Abrechnungsquartal,Shuffle,
+DM3,AMBFALL,DATENMODELL,,Nichts,
+DM3,AMBFALL,BJAHR,Berichtsjahr,Nichts,
+DM3,AMBFALL,FALLIDAMB,Fall-ID des ambulanten Arztfalls,Pool,FALLIDAMB
+DM3,AMBFALL,SVNR,Vertragsnummer des Selektivvertrags,Pool,SVNR
+DM3,AMBFALL,SVTYP,Vertragstyp,Shuffle,
+DM3,AMBFALL,BSNRPSEUDO,Pseudonym der Betriebsstätte des behandelnden Arztes,Pool,BSNRPSEUDO
+DM3,AMBFALL,BSNRKV,Regionalkennzeichen der Betriebsstätte des behandelnden Arztes,Shuffle,
+DM3,AMBFALL,BSNRUEBPSEUDO,Pseudonym der Betriebsstätte des überweisenden Arztes,Pool,BSNRPSEUDO
+DM3,AMBFALL,BSNRUEBKV,Regionalkennzeichen der Betriebsstätte des überweisenden Arztes,Shuffle,
+DM3,AMBFALL,LANRUEBPSEUDO,Pseudonym des überweisenden Arztes,Pool,LANR
+DM3,AMBFALL,LANRUEBFG,Fachgruppe des überweisenden Arztes,Shuffle,
+DM3,AMBFALL,INANSPRARTAMB,Art der Inanspruchnahme,Shuffle,
+DM3,AMBFALL,UNFALL,Unfallkennzeichen/BVG,Shuffle,
+DM3,AMBFALL,BEHANDARTAMB,Behandlungsart,Shuffle,
+DM3,AMBFALL,ENTBINDUNGSDAT,Entbindungsdatum,Shuffle,
+DM3,AMBFALL,PUNKTZAHL,Punktzahl,Shuffle,
+DM3,AMBFALL,FALLKOAMB,Kosten,Shuffle,
+DM3,AMBFALL,DIALYSESACHKO,Dialysesachkosten,Shuffle,
+DM3,AMBFALL,BEGINNDATAMB,Datum des ersten Behandlungstages,Shuffle,
+DM3,AMBFALL,ENDEDATAMB,Datum des letzten Behandlungstages,Shuffle,
+DM3,AMBDIAG,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,AMBDIAG,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,AMBDIAG,DATENMODELL,,Nichts,
+DM3,AMBDIAG,BJAHR,Berichtsjahr,Nichts,
+DM3,AMBDIAG,FALLIDAMB,Fall-ID des ambulanten Arztfalls,Pool,FALLIDAMB
+DM3,AMBDIAG,ICDAMB_CODE,ICD 10 GM Code ohne Punktnotation und Sonderzeichen,Shuffle,
+DM3,AMBDIAG,ICDAMB_ZUSATZ,ICD Sonderzeichen,Shuffle,
+DM3,AMBDIAG,DIAGSICH,Angaben zur Diagnosesicherheit,Shuffle,
+DM3,AMBDIAG,DIAGLOKAL,Angaben zur Diagnoselokalisation,Shuffle,
+DM3,AMBDIAG,DIAGDAT,Diagnosedatum,Shuffle,
+DM3,AMBLEIST,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,AMBLEIST,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,AMBLEIST,DATENMODELL,,Nichts,
+DM3,AMBLEIST,BJAHR,Berichtsjahr,Nichts,
+DM3,AMBLEIST,FALLIDAMB,Fall-ID des ambulanten Arztfalls,Pool,FALLIDAMB
+DM3,AMBLEIST,NBSNRPSEUDO,Pseudonym der Nebenbetriebsstätte des behandelnden Arztes,Pool,BSNRPSEUDO
+DM3,AMBLEIST,NBSNRKV,Regionalkennzeichen der Nebenbetriebsstätte des behandelnden Arztes,Shuffle,
+DM3,AMBLEIST,LANRPSEUDO,Pseudonym des behandelnden Arztes,Pool,LANR
+DM3,AMBLEIST,LANRFG,Fachgruppe des behandelnden Arztes,Shuffle,
+DM3,AMBLEIST,GONR,Gebührenordnungsnummer,Shuffle,
+DM3,AMBLEIST,GONRDAT,Datum der Gebührenordnungsnummer,Shuffle,
+DM3,AMBLEIST,MULTIPLIKATOR,Anzahl der erbrachten Leistungen je Gebührenordnungsnummer,Shuffle,
+DM3,AMBLEIST,AMBLEISTZEIT,Uhrzeit,Shuffle,
+DM3,AMBLEIST,TSVGART,TSVG-Vermittlungs-/Kontakt-Art,Shuffle,
+DM3,AMBLEIST,TSVGDAT,TSVG-Datumsangabe,Shuffle,
+DM3,AMBLEIST,TSVGARZT,TSVG-Arztgruppe,Shuffle,
+DM3,AMBLEIST,TSVGBSNRPSEUDO,(N)BSNR des Facharztes bei TSVG-Hausarztvermittlung,Pool,BSNRPSEUDO
+DM3,AMBLEIST,TSVGBSNRKV,Regionalkennzeichen der (Neben-)Betriebsstätte des Facharztes bei TSVG-Hausarztvermittlung,Shuffle,
+DM3,AMBLEIST,ZWEITMEIN,Zweitmeinungskennung,Shuffle,
+DM3,AMBLEIST,GONRBEWERT,Bewertung der Gebührenordnungsnummer,Shuffle,
+DM3,AMBOPS,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,AMBOPS,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,AMBOPS,DATENMODELL,,Nichts,
+DM3,AMBOPS,BJAHR,Berichtsjahr,Nichts,
+DM3,AMBOPS,FALLIDAMB,Fall-ID des ambulanten Arztfalls,Pool,FALLIDAMB
+DM3,AMBOPS,OPS,OPS-Kode,Shuffle,
+DM3,AMBOPS,OPSLOKAL,Lokalisation,Shuffle,
+DM3,AMBOPS,OPSDAT,Eingriffsdatum,Shuffle,
+DM3,ZAHNFALL,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,ZAHNFALL,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,ZAHNFALL,DATENMODELL,,Nichts,
+DM3,ZAHNFALL,BJAHR,Berichtsjahr,Nichts,
+DM3,ZAHNFALL,LEISTQ,Leistungsquartal,Shuffle,
+DM3,ZAHNFALL,FALLIDZAHN,Fall-ID des ambulanten Zahnarztfalls,Pool,FALLIDZAHN
+DM3,ZAHNFALL,ZANRPSEUDO,Pseudonym (überjährig) der Zahnarztnummer,Pool,ZANRPSEUDO
+DM3,ZAHNFALL,ZANRABRPSEUDO,Pseudonym des Zahnarztes in der abrechnenden Zahnartpraxis,Pool,ZANRABRPSEUDO
+DM3,ZAHNFALL,ZAKZV,KZV-Bereich des Zahnarztes,Pool,ZAKZV
+DM3,ZAHNFALL,BEHANDARTZAHN,Behandlungsart,Shuffle,
+DM3,ZAHNFALL,BEGINNDATZAHN,Datum Beginn der Behandlung,Shuffle,
+DM3,ZAHNFALL,ENDEDATZAHN,Datum Ende der Behandlung,Shuffle,
+DM3,ZAHNFALL,FALLKOZAHN,Geldbetrag,Shuffle,
+DM3,ZAHNFALL,EIGENLABOR,Geldbetrag Eigenlabor,Shuffle,
+DM3,ZAHNFALL,FREMDLABOR,Geldbetrag Fremdlabor,Shuffle,
+DM3,ZAHNFALL,INANSPRARTZAHN,Art der Inanspruchnahme,Shuffle,
+DM3,ZAHNLEIST,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,ZAHNLEIST,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,ZAHNLEIST,DATENMODELL,,Nichts,
+DM3,ZAHNLEIST,BJAHR,Berichtsjahr,Nichts,
+DM3,ZAHNLEIST,FALLIDZAHN,Fall-ID des ambulanten Zahnarztfalls,Pool,FALLIDZAHN
+DM3,ZAHNLEIST,LEISTDAT,Datum der Leistung,Shuffle,
+DM3,ZAHNLEIST,ZAHN,Zahnangabe Beschreibung codiert,Shuffle,
+DM3,ZAHNLEIST,GEBNR,Gebührennummer,Shuffle,
+DM3,ZAHNLEIST,GEBPOS,Positionsangabe Beschreibung codiert,Shuffle,
+DM3,ZAHNLEIST,GEBNRZZAHL,Anzahl der Gebührennummern,Shuffle,
+DM3,ZAHNBEF,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,ZAHNBEF,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,ZAHNBEF,DATENMODELL,,Nichts,
+DM3,ZAHNBEF,BJAHR,Berichtsjahr,Nichts,
+DM3,ZAHNBEF,FALLIDZAHN,Fall-ID des ambulanten Zahnarztfalls,Pool,FALLIDZAHN
+DM3,ZAHNBEF,BEFNR,Befundnummer,Shuffle,
+DM3,ZAHNBEF,ZAHN,Zahnangabe Beschreibung codiert,Shuffle,
+DM3,ZAHNBEF,REFART,Art der Referenz,Shuffle,
+DM3,ZAHNBEF,BEFNRZAHL,Anzahl der abgerechneten Befundnummer,Shuffle,
+DM3,REZ,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,REZ,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,REZ,DATENMODELL,,Nichts,
+DM3,REZ,BJAHR,Berichtsjahr,Nichts,
+DM3,REZ,REZNR,Rezeptnummer,Pool,REZNR
+DM3,REZ,PZNREZ,Pharmazentralnummer,Shuffle,
+DM3,REZ,VODAT,Verordnungsdatum,Shuffle,
+DM3,REZ,BSNRVOPSEUDO,Pseudonym der verordnenden Betriebsstätte,Pool,BSNRPSEUDO
+DM3,REZ,BSNRVOREGKNZ,Regionalkennzeichen der verordnenden Betriebsstätte,Shuffle,
+DM3,REZ,LENRVOPSEUDO,Pseudonym des verordnenden Leistungserbringers,Pool,LENRVOPSEUDO
+DM3,REZ,LENRVOFG,Fachgruppe des verordnenden Leistungserbringers,Shuffle,
+DM3,REZ,ABGABEDAT,Datum der Abgabe,Shuffle,
+DM3,REZ,VERTRAGSKZ,Vertragskennzeichen,Shuffle,
+DM3,REZ,APOPSEUDO,Pseudonym der Apotheke,Pool,APOPSEUDO
+DM3,REZ,APOKLASS,Klassifikation der Apotheke,Shuffle,
+DM3,REZ,APOREGKNZ,Regionalkennzeichen der Apotheke,Shuffle,
+DM3,REZ,APOSITZ,Sitz des Leistungserbringer in In- oder Ausland,Shuffle,
+DM3,REZ,MENGE,Anzahl Einheiten oder Faktorkennzeichen,Shuffle,
+DM3,REZ,NOCTU,Noctu,Shuffle,
+DM3,REZ,AUTIDEM,Aut Idem,Shuffle,
+DM3,REZ,WIRKSTOFFVO,Wirkstoffverordnung,Shuffle,
+DM3,REZ,AMBETRAG,Betrag,Shuffle,
+DM3,REZ,ABSCHLAEGE,Gesetzliche Apotheken- und Großhandelsabschläge,Shuffle,
+DM3,REZ,ZUZAHLKZ,Zuzahlungskennzeichen,Shuffle,
+DM3,REZ,ZUZAHLGES,Gesamtbetrag Zuzahlungen,Shuffle,
+DM3,REZ,EIGENBET,Gesamtbetrag Eigenbeteiligungen,Shuffle,
+DM3,EZD,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,EZD,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,EZD,DATENMODELL,,Nichts,
+DM3,EZD,BJAHR,Berichtsjahr,Nichts,
+DM3,EZD,REZNR,Rezeptnummer,Pool,REZNR
+DM3,EZD,PZNEZD,Pharmazentralnummer,Shuffle,
+DM3,EZD,FAKTOR,Faktor,Shuffle,
+DM3,EZD,FAKTORKENNZEICHEN,Faktorkennzeichen,Shuffle,
+DM3,KHFALL,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,KHFALL,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,KHFALL,DATENMODELL,,Nichts,
+DM3,KHFALL,BJAHR,Berichtsjahr,Nichts,
+DM3,KHFALL,FALLIDKH,Fall-ID des Krankenhausfalls,Pool,KHFALL
+DM3,KHFALL,KHPSEUDO,Pseudonym des Krankenhauses,Pool,KHPSEUDO
+DM3,KHFALL,KHKLASS,Klassifikation des Krankenhauses,Shuffle,
+DM3,KHFALL,KHREGKZ,Regionalkennzeichen des Krankenhauses,Shuffle,
+DM3,KHFALL,AUFNDAT,Aufnahmetag,Shuffle,
+DM3,KHFALL,AUFNGRUND,Aufnahmegrund,Shuffle,
+DM3,KHFALL,ENTLASSGRUND,Entlassungsgrund,Shuffle,
+DM3,KHFALL,AUFNFA,Aufnehmende Fachabteilung,Shuffle,
+DM3,KHFALL,EINWEISPSEUDO,Pseudonym des einweisenden Arztes oder KZV-Nummer des einweisenden Zahnarztes,Pool,LENRVOPSEUDO
+DM3,KHFALL,EINWEISFG,Fachgruppe des einweisenden Arztes oder einweisenden Zahnarztes,Shuffle,
+DM3,KHFALL,VERANLASSKHPSEUDO,Pseudonym des veranlassenden Krankenhauses bei Verlegung,Pool,KHPSEUDO
+DM3,KHFALL,VERANLASSKHKLASS,Klassifikation des veranlassenden Krankenhauses bei Verlegung,Shuffle,
+DM3,KHFALL,VERANLASSKHREGKNZ,Regionalkennzeichen des veranlassenden Krankenhauses bei Verlegung,Shuffle,
+DM3,KHFALL,BEATSTD,Beatmungsstunden,Shuffle,
+DM3,KHFALL,VERANLASSSTELLEPSEUDO,Pseudonym der veranlassenden Stelle bei Notaufnahme,Shuffle,
+DM3,KHFA,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,KHFA,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,KHFA,BJAHR,Berichtsjahr,Nichts,
+DM3,KHFA,DATENMODELL,,Nichts,
+DM3,KHFA,FALLIDKH,Fall-ID des Krankenhausfalls,Pool,KHFALL
+DM3,KHFA,FA,Fachabteilung,Shuffle,
+DM3,KHFA,ENTLASSDAT,Entlassungs- oder Verlegungsdatum aus der Fachabteilung,Shuffle,
+DM3,KHFA,ENTLASSZEIT,Entlassungs- oder Verlegungsuhrzeit aus der Fachabteilung,Shuffle,
+DM3,KHDIAG,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,KHDIAG,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,KHDIAG,BJAHR,Berichtsjahr,Nichts,
+DM3,KHDIAG,DATENMODELL,,Nichts,
+DM3,KHDIAG,FALLIDKH,Fall-ID des Krankenhausfalls,Pool,KHFALL
+DM3,KHDIAG,DIAGART,Art der Diagnose des voll- oder teilstationären Falls,Shuffle,
+DM3,KHDIAG,ICDKH_CODE,ICD 10 GM Code ohne Punktnotation und Sonderzeichen,Shuffle,
+DM3,KHDIAG,ICDKH_ZUSATZ,ICD Sonderzeichen,Shuffle,
+DM3,KHDIAG,ICDLOKAL,Lokalisation der Primärdiagnose,Shuffle,
+DM3,KHDIAG,SEKICD_CODE,ICD 10 GM Code Sekundärdiagnose ohne Punktnotation und Sonderzeichen,Shuffle,
+DM3,KHDIAG,SEKICD_ZUSATZ,ICD Sonderzeichen Sekundärdiagnose,Shuffle,
+DM3,KHDIAG,SEKICDLOKAL,Lokalisation der Sekundärdiagnose,Shuffle,
+DM3,KHPROZ,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,KHPROZ,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,KHPROZ,DATENMODELL,,Nichts,
+DM3,KHPROZ,BJAHR,Berichtsjahr,Nichts,
+DM3,KHPROZ,FALLIDKH,Fall-ID des Krankenhausfalls,Pool,KHFALL
+DM3,KHPROZ,PROZ,Prozedurenschlüssel,Shuffle,
+DM3,KHPROZ,PROZDAT,Prozedurendatum,Shuffle,
+DM3,KHPROZ,PROZLOKAL,Prozedurenlokalisation,Shuffle,
+DM3,KHENTG,VSID,Einjähriges Pseudonym / Arbeitsnummer des Versicherten,Pool,VSID
+DM3,KHENTG,PSID,Periodenübergreifendes Pseudonym,Pool,PSID
+DM3,KHENTG,DATENMODELL,,Nichts,
+DM3,KHENTG,BJAHR,Berichtsjahr,Nichts,
+DM3,KHENTG,FALLIDKH,Fall-ID des Krankenhausfalls,Pool,KHFALL
+DM3,KHENTG,ENTGART,Entgeltart,Shuffle,
+DM3,KHENTG,ENTGBETRAG,Entgeltbetrag,Shuffle,
+DM3,KHENTG,ABRVONDAT,Abrechnung von,Shuffle,
+DM3,KHENTG,ABRBISDAT,Abrechnung bis,Shuffle,
+DM3,KHENTG,ENTGZAHL,Anzahl der Entgelte,Shuffle,
+DM3,KHENTG,TAGEOBE,Tage ohne Berechnung/Behandlung,Shuffle,
