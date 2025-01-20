@@ -3,22 +3,25 @@ import sqlite3
 import pandas as pd
 
 
-def connect_to_database(dsn="sqlite", username="fdz", password="fdz", data_model=2):
+def connect_to_database(dsn: str, username: str, password: str, data_model: int=2) \
+    -> tuple[pyodbc.Connection | sqlite3.Connection, pyodbc.Cursor | sqlite3.Cursor]:
     if dsn == "oracle":
         # get oracle connection with test database
         connect_string = f"DSN={dsn};UID={username};PWD={password}"
         try:
-            cnxn = pyodbc.connect(connect_string)
-            cursor = cnxn.cursor()
-        except ConnectionError:
+            cnxn: pyodbc.Connection = pyodbc.connect(connect_string)
+            cursor: pyodbc.Cursor = cnxn.cursor()
+        except ConnectionError as e:
+            print(f"Warning: {e}")
             return False
     elif dsn == "sqlite":
         connect_string = "dm3_testdaten.sqlite" if data_model == 3 \
-            else f"test_data/fdz_generated_data_dm12.db"
+            else "test_data/fdz_generated_data_dm12.db"
         try:
-            cnxn = sqlite3.connect(connect_string)
-            cursor = cnxn.cursor()
-        except ConnectionError:
+            cnxn: sqlite3.Connection = sqlite3.connect(connect_string)
+            cursor: sqlite3.Cursor = cnxn.cursor()
+        except ConnectionError as e:
+            print(f"Warning: {e}")
             return False
     else:
         print(f"Database {dsn} not supported. Try Sqlite or Oracle.")

@@ -16,6 +16,9 @@ def get_prefix(table: str) -> str:
 
 
 class TestOutputData(unittest.TestCase):
+    DSN = "sqlite"
+    USERNAME = "fdz"
+    PWD = "fdz"
     YEAR = 2016
     DATA_MODEL = 2 if YEAR <= 2018 else 3
     ALL_TABLES = ["SA151", "SA152", "SA153", "SA451", "SA551", "SA651", "SA751", "SA951", "SA131"] if (
@@ -25,7 +28,7 @@ class TestOutputData(unittest.TestCase):
 
     def test_same_datatypes(self):
         print("\nTest whether the Public Use File contains the same datatypes as the original data.")
-        con, cursor = connect_to_database(data_model=self.DATA_MODEL)
+        con, cursor = connect_to_database(self.DSN, self.USERNAME, self.PWD, self.DATA_MODEL)
         for table in self.ALL_TABLES:
             print(f"\nTable {table}")
             prefix = get_prefix(table)
@@ -43,7 +46,7 @@ class TestOutputData(unittest.TestCase):
     def test_completeness(self):
         print("Test whether the Public Use File is complete, hence contains the same columns and number of rows for "
               "each table as the original data.")
-        con, cursor = connect_to_database(data_model=self.DATA_MODEL)
+        con, cursor = connect_to_database(self.DSN, self.USERNAME, self.PWD, self.DATA_MODEL)
         for table in self.ALL_TABLES:
             print(f"Table {table}")
             prefix = get_prefix(table)
