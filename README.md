@@ -1,8 +1,10 @@
 ## Public Use File für Datenmodelle 1, 2 und 3
 
-> :tada: Update! Testdaten und Code für Datenmodell 3 wurden hinzugefügt. Wir bitten um Feedback! 
+> :tada: Update! Das Public Use File für die Datenmodelle 1 und 2 ist online: https://zenodo.org/records/14524120
 
-> &#128161; Disclaimer: In diesem Repository befindet sich aktuell der Code zum Erstellen des Public Use Files für die Datenmodelle 1, 2 und 3, inklusive generierten Mockdaten zum Testen des Codes, aber bisher NICHT das Public Use File selbst. Nachdem wir Feedback zur Methodik von der Community gesammelt haben, werden wir dieses veröffentlichen und Sie hierüber informieren. 
+> :tada: Testdaten und Code für Datenmodell 3 wurden hinzugefügt. Wir bitten um Feedback! 
+
+> &#128161; In diesem Repository befindet sich lediglich der Code zum Erstellen des Public Use Files für die Datenmodelle 1, 2 und 3, inklusive generierten Mockdaten zum Testen des Codes, aber NICHT das Public Use File selbst. Das Public Use File für die Datenmodelle 1 und 2 ist [hier](https://zenodo.org/records/14524120) zu finden. Sobald das Public Use File für Datenmodell 3 ebenfalls verfügbar ist, werden wir Sie hierüber informieren. 
 
 ### Ziel
 Das Public Use File (PUF) soll es ermöglichen, Auswertungsskripte zu entwickeln, die für die DaTraV Daten geeignet sind, sowie deren technische Möglichkeiten zu evaluieren.
