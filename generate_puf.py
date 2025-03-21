@@ -18,7 +18,21 @@ import warnings
 from datetime import datetime
 from multiprocessing import Pool, cpu_count
 
+import logging
+import logging.config
+from yaml import safe_load
+
+
+# set up logging configuration
+logging_config: Path = Path("logging_config.yaml")
+with logging_config.open("rt") as f:
+        config=safe_load(f.read())
+        f.close()
+logging.config.dictConfig(config)
 warnings.simplefilter(action='ignore', category=UserWarning)
+
+
+# k anonymization parameter
 K = 3
 
 
@@ -152,23 +166,23 @@ def process_data(arguments):
                 begin = datetime.now()
                 cursor.execute(f"SELECT {col} from {table_name}")
                 data = pd.Series([entry[0] for entry in cursor.fetchall()])
-                print(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
+                logger.info(f"Fetching {col} data from {table_name} took {datetime.now() - begin}")
 
                 # 0) clean column
                 begin = datetime.now()
                 data_type = dtypes[col]
                 data = clean_data(data, data_type)
-                print(f"Cleaning {col} took {datetime.now() - begin}.")
+                logging.info(f"Cleaning {col} took {datetime.now() - begin}.")
 
                 # 1) randomly shuffle the column
                 begin = datetime.now()
                 data = shuffle_column(data)  # overwrite data in columns new order
-                print(f"Data shuffling for {col} took {datetime.now() - begin}.")
+                logging.info(f"Data shuffling for {col} took {datetime.now() - begin}.")
 
                 # 2) apply k-anonymity
                 begin = datetime.now()
                 data = force_k(data, data_type, k=K)
-                print(f"K-anonymity for {col} took {datetime.now() - begin}.")
+                logging.info(f"K-anonymity for {col} took {datetime.now() - begin}.")
 
         finally:
             connection.close()
@@ -250,8 +264,24 @@ if __name__ == '__main__':
     parser.add_argument("--year", default=default_year, type=int, help=f"Year for data creation, default: {default_year}")
     parser.add_argument("--multi_threading", action='store_true', help="Whether to parallelize the code in multiple "
                                                                        "threads, default: False")
-
+    parser.add_argument("--log_file", default=None, help="Name of the log file, default: None")
+    logging_verbosity = parser.add_mutually_exclusive_group()
+    logging_verbosity.add_argument("--debug", action='store_true', help="Set the logging level to debug, default: False")
+    logging_verbosity.add_argument("--quiet", daction='store_true', help="Disable logging except for errors, default: False")
+    
     args = parser.parse_args()
+    
+    # set up logging
+    logger = logging.getLogger(__name__)
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
+    elif args.quiet:
+        logger.setLevel(logging.ERROR)
+    else:
+        logger.setLevel(logging.INFO)
+    # logger = logging.getLogger("PUF File Generation main")
+    logger.info("Start generating PUF")
+
     # get data model
     data_model: int = get_data_model_from_year(args.year)
 
@@ -305,7 +335,7 @@ if __name__ == '__main__':
 
     if args.multi_threading:
         num_processes = min(len(all_tables), cpu_count())
-        print(f"Multi-threading is used with {num_processes} processes.")
+        logging.info(f"Multi-threading is used with {num_processes} processes.")
         with Pool(num_processes) as pool:
             pool.map(process_data, [(table, id_pool_mapping, args) for table in all_tables])
     else:
@@ -316,7 +346,7 @@ if __name__ == '__main__':
     # load csv files and insert data into database line by line
     # this is needed when working with the real data because the tables cannot be loaded into the memory at once
     for table in all_tables:
-        print(f"Writing table {table} to database.")
+        logging.info(f"Writing table {table} to database.")
         write_to_database(table, args=args)
 
-    print(f"The whole process took {datetime.now() - begin}.")
+    logging.info(f"The whole process took {datetime.now() - begin}.")

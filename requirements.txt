@@ -4,4 +4,4 @@ pyodbc==5.1.0
 tqdm==4.66.3
 simple-icd-10==2.0.1
 sqlalchemy==2.0.31
-
+pyyaml==6.0.2
